@@ -1,4 +1,5 @@
 var express = require('express');
+const Contact_us = require('../models/Contact_us');
 var router = express.Router();
 
 /* GET home page. */
@@ -61,4 +62,47 @@ router.get('/checkout', function(req, res, next) {
 router.get('/contact', function(req, res, next) {
     res.render('home/contact', { active_class: 'active' });
 });
+
+/* GET chat application page  */
+router.get('/chat', function(req, res, next) {
+    res.render('home/chat', { active_class: 'active' });
+});
+
+/* CONTACT US FORM POST */
+
+router.post('/contact', (req, res, next) => {
+    console.log("Works");
+    Contact_us.create({
+            name: req.body.name,
+            email: req.body.email,
+            subject: req.body.subject,
+            message: req.body.message
+        })
+        .then((message) => {
+            req.flash('error', 'Message is sent!! ');
+            res.redirect('/contact');
+            console.log('Message sent ');
+        }, (err) => next(err))
+        .catch((err) => next(err));
+})
+
+
+/*
+router.contactus = (req, res, next) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const subject = req.body.subject;
+    const message = req.body.message;
+
+    const contactus = new Contact_us({
+        name: name,
+        email: email,
+        subject: subject,
+        message: message,
+    });
+    contactus.save();
+    // req.flash('error', 'Message is sent!! ');
+    // res.redirect('/contact');
+};
+*/
 module.exports = router;
