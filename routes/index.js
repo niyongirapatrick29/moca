@@ -80,7 +80,7 @@ router.post('/contact', (req, res, next) => {
         })
         .then((message) => {
             req.flash('error', 'Message is sent!! ');
-            res.redirect('/contact');
+            //res.redirect('/contact');
             console.log('Message sent ');
         }, (err) => next(err))
         .catch((err) => next(err));
