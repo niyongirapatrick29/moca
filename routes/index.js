@@ -1,5 +1,8 @@
 var express = require('express');
+const path = require('path');
+//use models (table) for storing data
 const Contact_us = require('../models/Contact_us');
+const Order = require('../models/Order');
 var router = express.Router();
 
 /* GET home page. */
@@ -87,22 +90,30 @@ router.post('/contact', (req, res, next) => {
 })
 
 
-/*
-router.contactus = (req, res, next) => {
-    const name = req.body.name;
-    const email = req.body.email;
-    const subject = req.body.subject;
-    const message = req.body.message;
+/* CREATE USER      */
 
-    const contactus = new Contact_us({
-        name: name,
-        email: email,
-        subject: subject,
-        message: message,
-    });
-    contactus.save();
-    // req.flash('error', 'Message is sent!! ');
-    // res.redirect('/contact');
-};
-*/
+router.post('/checkout', (req, res, next) => {
+    console.log("Works");
+    Order.create({
+            fname: req.body.fname,
+            lname: req.body.lname,
+            phone: req.body.phone,
+            email: req.body.email,
+            country: req.body.country,
+            province: req.body.province,
+            district: req.body.district,
+            sector: req.body.sector,
+            cell: req.body.cell,
+            village: req.body.village,
+            street: req.body.street,
+            city: req.body.city,
+            order_note: req.body.message
+        })
+        .then((order) => {
+            req.flash('error', 'Order is sent!! ');
+            res.redirect('/checkout');
+        }, (err) => next(err))
+        .catch((err) => next(err));
+});
+
 module.exports = router;

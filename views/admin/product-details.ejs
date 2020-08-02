@@ -1,0 +1,40 @@
+<%- include('../includes/back_head.ejs') %>
+  <!-- Navigation-->
+<%- include('../includes/back_navigator.ejs') %>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="#">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Product details </li>
+      </ol>
+      <!-- Icon Cards-->
+      <div class="container">
+        <!-- Example Social Card-->
+        <div class="card col-md-8 col-lg-8 col-sm-12" style="padding: 0px;">
+            <a href="#">
+              <img class="card-img-top img-fluid w-100" src="<%= details.imageUrl %>" alt="">
+            </a>
+            <div class="card-body">
+                <h2 class="card-title mb-1"><a href="#"><%= details.title %></a></h2>
+                <p class="card-text small"><%= details.desc %></p>
+              </div>
+              <hr class="my-0">
+              <div class="card-body small">
+                <a class="mr-3 d-inline-block" href="#">Quantity: <%= details.qty %> kg</a>
+                <a class="mr-3 d-inline-block" href="#"></a>
+                <a class="d-inline-block" href="#">Price: <%= details.price %> Frw</a>
+              </div>
+              <div class="card-footer small text-muted">
+                <button class="button pull-right">Add To Cart</button>
+              </div>
+            </div>
+          <!-- Example Social Card-->
+      </div>
+
+    </div>
+    <!-- /.container-fluid-->
+
+    <%- include('../includes/back_footer.ejs') %>

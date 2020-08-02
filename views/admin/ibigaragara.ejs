@@ -1,0 +1,82 @@
+<%- include('include/back_head.ejs') %>
+  <!-- Navigation-->
+<%- include('include/back_top_navigation.ejs') %>
+<%- include('include/back_navigator.ejs') %>
+<!-- end Navigation-->
+  <!-- ============================================================== -->
+  <div class="page-wrapper">
+    <div class="container-fluid">
+       <!-- ============================================================== -->
+      <div class="row">   
+        <!-- card -->
+        <div class="card col-md-12 col-lg-12 col-sm-12">
+            <div class="card-body" style="display: flex;">
+                <h3 class="card-title">URUTONDE RW'INKURU ZIGARAGARA</h3>
+                <a href="/backend/inkuru_nshya" class="btn btn-primary" style="margin-left: 40%;">INKURU NSHYA</a>
+            </div>
+            <% if(ibigaragara_data.length > 0){ %>
+            <% if(errorMessage){ %>
+                <h4 style="color:brown; margin-left: 10rem;"><%= errorMessage %></h4>
+                <% } %>
+            <div class="comment-widgets scrollable" style="max-height: 400px;">
+                <!-- Comment Row -->
+                <% for(let news_data of ibigaragara_data) { %>
+                <div class="d-flex flex-row comment-row m-t-0">
+                    <div class="p-4"><img src="/uploads/<%= news_data.image_news %>" alt="user" width="100" class="rounded-"></div>
+                    <div class="comment-text w-100">
+                        <h6 class="font-medium"><%= news_data.title %></h6>
+                        <span class="m-b-15 d-block"><%= news_data.subtitle %> </span>
+                        <div class="comment-footer">
+                            <span class="text-muted float-right">John Doe</span>
+                            <span class="text-muted float-right">April 14, 2016</span> 
+                            <a href=""class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal<%= news_data._id %>">Details</a>
+
+                            <a href="/backend/edit_ibigaragara/<%=news_data._id %>" class="btn btn-primary btn-sm">Edit</a>
+
+                            <a href="/backend/publish_ibigaragara/<%= news_data._id %>" class="btn btn-success btn-sm">
+                                <% if(news_data.news_status === '1'){ %>
+                                    Unpublish
+                                <% }else{ %>
+                                    Publish
+                                <% } %>
+                            </a>
+                            <a href="/backend/delete_ibigaragara/<%= news_data._id %>" class="btn btn-danger btn-sm">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="myModal<%= news_data._id %>" role="dialog">
+                    <div class="modal-dialog">
+                    
+                      <!-- Modal content-->
+                      <div class="modal-content ">
+                        <div class="modal-header">
+                          <h4 class="modal-title"><%= news_data.title %></h4>
+                        </div>
+                        <div class="modal-body">
+                          <div class="el-card-avatar el-overlay-1" > 
+                            <img src="/uploads/<%=news_data.image_news %>" alt="user" style="width: 100%; height: 300px;">
+                        </div>
+                          <h4 class="modal-title"><%= news_data.subtitle %></h4>
+                          <p> <%= news_data.full_news %></p>
+                          <p> <%= news_data.writer %></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                <% } %>
+            </div>
+            <% }else{%>
+                <h3>No data in database</h3>
+            <% } %>
+        </div>
+        
+      </div>
+    <!-- ============================================================== -->
+    </div>
+  </div>
+<!-- ============================================================== -->
+<%- include('include/back_footer.ejs') %>

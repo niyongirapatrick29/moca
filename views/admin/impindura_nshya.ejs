@@ -1,0 +1,63 @@
+<%- include('include/back_head.ejs') %>
+  <!-- Navigation-->
+<%- include('include/back_top_navigation.ejs') %>
+<%- include('include/back_navigator.ejs') %>
+<!-- end Navigation-->
+  <!-- ============================================================== -->
+  <div class="page-wrapper">
+    <div class="container-fluid">
+       <!-- ============================================================== -->
+      <div class="row">   
+        <div class="col-md-8">
+          <div class="card">
+              <form class="form-horizontal" action="/backend/<% if(editing){ %>impindura_edit<% }else{ %>impindura_nshya<% } %>" method="POST" enctype="multipart/form-data">
+                  <div class="card-body">
+                      <h3 class="card-title"><b>IJAMBO RYAHINDURA UBUZIMA</b></h3>
+                      <% if(errorMessage){ %>
+                        <h4 style="color: brown;"><%= errorMessage %></h4>
+                        <% } %>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!--  -->
+                                <div class="form-group ">
+                                    <label for="image" class="col-sm-12  control-label col-form-label">image</label>
+                                    <div class="col-sm-12">
+                                        <input type="file" class="form-control" name="image" id="image" placeholder=" Here" value="<% if(editing){ %><%= editing_data.image %><% } %>">
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="umuhanga" class="col-sm-12  control-label col-form-label">Umuhanga</label>
+                                    <div class="col-sm-12">
+                                        <% if(editing){ %>
+                                            <input type="hidden" class="form-control" name="editedID" id="editedID"  value="<%= editing_data._id %>">
+                                        <% } %>
+                                        <input type="hidden"  name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                                        <input type="text" class="form-control" name="umuhanga" id="umuhanga" placeholder="Umuhanga wavuze" value="<% if(editing){ %><%= editing_data.umuhanga %><% } %>">
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="ijambo" class="col-sm-12  control-label col-form-label">IJAMBO</label>
+                                    <div class="col-sm-12">
+                                        <textarea name="ijambo" class="form-control" id="ijambo" cols="30" rows="10" placeholder="Ijambo ryahindura ubuzima"><% if(editing){ %><%= editing_data.ijambo %><% } %></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                      
+                  </div>
+                  <div class="border-top">
+                      <div class="card-body">
+                          <button type="submit" class="btn btn-primary"><% if(editing){ %>Save updated quotes<% }else{ %>save new quotes<% } %></button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+        </div>
+        
+      </div>
+    <!-- ============================================================== -->
+    </div>
+  </div>
+<!-- ============================================================== -->
+<%- include('include/back_footer.ejs') %>

@@ -1,0 +1,133 @@
+<%- include('include/back_head.ejs') %>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Navigation-->
+    <%- include('include/back_top_navigation.ejs') %>
+        <%- include('include/back_navigator.ejs') %>
+            <!-- end Navigation-->
+            <!-- ============================================================== -->
+            <div class="page-wrapper">
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="alert alert-cyan">
+                                        <h3 class="card-title m-b-0">
+                                            <span class="fa fa-users">&nbsp; LIST OF USERS </span>
+                                            <span>
+                                        <a href="/admin/add_user" class="btn btn-primary" style="margin-left: 90%;">New User</a>
+                                    </span>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <% if(errorMessage){ %>
+                                    <h3 style="color: brown;">
+                                        <%= errorMessage %>
+                                    </h3>
+                                    <% } %>
+                                        <% if(user.length > 0){ %>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Names</th>
+                                                        <th scope="col">Phone</th>
+                                                        <th scope="col">Email</th>
+                                                        <th scope="col">Address</th>
+                                                        <th scope="col">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% for(let user_data of user){ %>
+                                                        <tr>
+                                                            <td>
+                                                                <%= user_data.fname %>
+                                                                    <%= user_data.lname %>
+                                                            </td>
+                                                            <td class="text-success">
+                                                                <%= user_data.phone %>
+                                                            </td>
+                                                            <td class="text-info">
+                                                                <%= user_data.email %>
+                                                            </td>
+                                                            <td class="text-success">
+                                                                <%= user_data.address %>
+                                                            </td>
+                                                            <td style="display:flex">
+                                                                <div style="margin-left: 0rem;">
+                                                                    <a class="btn <% if(user_data.user_status == 1){ %> btn-success <% }else{ %> btn-info <% } %>" href="/admin/approve_user/<%= user_data.id %>">
+                                                                        <i class="mdi mdi-check"></i>
+                                                                    </a>
+
+                                                                </div>
+
+                                                                <div style="margin-left: 1rem;">
+                                                                    <a class="btn btn-danger" href="/admin/delete_user/<%= user_data.id %>">
+                                                                        <i class="mdi mdi-close"></i>
+                                                                    </a>
+
+                                                                </div>
+
+
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+                                            </table>
+                                            <% }else{ %>
+                                                <h1>No user in the system</h1>
+                                                <% } %>
+                            </div>
+
+                            <!-- card new -->
+
+                        </div>
+                    </div>
+                    <div class="fixed">
+                        <% if (pages > 0) { %>
+                            <ul class="pagination text-center">
+                                <% if (current == 1) { %>
+                                    <li class="disabled"><a>First</a></li>
+                                    <% } else { %>
+                                        <li><a href="/admin/users/?page=1">First</a></li>
+                                        <% } %>
+                                            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                                <% if (i !== 1) { %>
+                                                    <li class="disabled"><a>...</a></li>
+                                                    <% } %>
+                                                        <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                                            <% if (i == current) { %>
+                                                                <li class="active">
+                                                                    <a>
+                                                                        <%= i %>
+                                                                    </a>
+                                                                </li>
+                                                                <% } else { %>
+                                                                    <li>
+                                                                        <a href="/admin/users/?page=<%= i %>">
+                                                                            <%= i %>
+                                                                        </a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% if (i == Number(current) + 4 && i < pages) { %>
+                                                                            <li class="disabled"><a>...</a></li>
+                                                                            <% } %>
+                                                                                <% } %>
+                                                                                    <% if (current == pages) { %>
+                                                                                        <li class="disabled"><a>Last</a></li>
+                                                                                        <% } else { %>
+                                                                                            <li>
+                                                                                                <a href="/admin/users/?page=<%= pages %>">
+                                                                                          Last
+                                                                                        </a>
+                                                                                            </li>
+                                                                                            <% } %>
+                            </ul>
+                            <% } %>
+                    </div>
+                    <!-- ============================================================== -->
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <%- include('include/back_footer.ejs') %>

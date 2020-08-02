@@ -1,0 +1,108 @@
+<%- include('include/back_head.ejs') %>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Navigation-->
+    <%- include('include/back_top_navigation.ejs') %>
+        <%- include('include/back_navigator.ejs') %>
+            <!-- end Navigation-->
+            <!-- ============================================================== -->
+            <div class="page-wrapper">
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <!-- Start Page Content -->
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <h4 class="card-title m-b-0">AMAFOTO AGATAGAZA UBWIZA BW'IBYAREMWE</h4>
+                        <a href="/backend/new_gallery" class="btn btn-primary" style="margin-left: 45%;">NSHYA</a>
+                    </div>
+                    <hr>
+                    <% if(gallery_data.length > 0){ %>
+                        <div class="row el-element-overlay">
+                            <% for( let gallery of gallery_data){ %>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="card">
+                                        <div class="el-card-item">
+                                            <div class="el-card-avatar el-overlay-1"> <img src="/uploads/<%= gallery.image %>" alt="user" />
+                                                <div class="el-overlay">
+                                                    <ul class="list-style-none el-info">
+                                                        <li class="el-item"><a class="btn default btn-outline image-popup-vertical-fit el-link" href="/<%= gallery.image %>"><i class="mdi mdi-magnify-plus"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="el-card-content">
+                        <h4 class="m-b-0"><%= gallery.title %></h4> 
+                        <span class="text-muted"><%= gallery.subtitle %></span>
+                    </div> -->
+                                            <hr>
+                                            <div class="" style="text-align: center;">
+                                                <a href="/backend/publish_gallery/<%= gallery._id %>" class="btn btn-success btn-sm">
+                                                    <% if(gallery.gallery_status === '1'){ %>
+                                                        Unpublish
+                                                        <% }else{ %>
+                                                            Publish
+                                                            <% } %>
+                                                </a>
+                                                <a href="/backend/delete_gallery/<%= gallery._id %>" class="btn btn-danger btn-sm">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                        </div>
+                        <% }else{%>
+                            <h3>No data in database</h3>
+                            <% } %>
+
+                </div>
+                <% if (pages > 0) { %>
+                    <ul class="pagination text-center">
+                        <% if (current == 1) { %>
+                            <li class="disabled"><a>First</a></li>
+                            <% } else { %>
+                                <li><a href="/backend/ubwiza/?page=1">First</a></li>
+                                <% } %>
+                                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                        <% if (i !== 1) { %>
+                                            <li class="disabled"><a>...</a></li>
+                                            <% } %>
+                                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                                    <% if (i == current) { %>
+                                                        <li class="active">
+                                                            <a>
+                                                                <%= i %>
+                                                            </a>
+                                                        </li>
+                                                        <% } else { %>
+                                                            <li>
+                                                                <a href="/backend/ubwiza/?page=<%= i %>">
+                                                                    <%= i %>
+                                                                </a>
+                                                            </li>
+                                                            <% } %>
+                                                                <% if (i == Number(current) + 4 && i < pages) { %>
+                                                                    <li class="disabled"><a>...</a></li>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <% if (current == pages) { %>
+                                                                                <li class="disabled"><a>Last</a></li>
+                                                                                <% } else { %>
+                                                                                    <li>
+                                                                                        <a href="/backend/ubwiza/?page=<%= pages %>">
+                                                                                      Last
+                                                                                    </a>
+                                                                                    </li>
+                                                                                    <% } %>
+                    </ul>
+                    <% } %>
+                        <!-- ============================================================== -->
+                        <!-- End PAge Content -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- Right sidebar -->
+                        <!-- ============================================================== -->
+                        <!-- .right-sidebar -->
+                        <!-- ============================================================== -->
+                        <!-- End Right sidebar -->
+                        <!-- ============================================================== -->
+            </div>
+            <!-- /.container-fluid-->
+            <%- include('include/back_footer.ejs') %>

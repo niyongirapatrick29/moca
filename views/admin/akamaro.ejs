@@ -1,0 +1,94 @@
+<%- include('include/back_head.ejs') %>
+<!-- Navigation-->
+<%- include('include/back_top_navigation.ejs') %>
+<%- include('include/back_navigator.ejs') %>
+<!-- end Navigation-->
+<!-- ============================================================== -->
+<div class="page-wrapper">
+  <div class="container-fluid">
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+  <div class="row">
+      <h4 class="card-title m-b-0" style="margin-left: 2rem;">AKAMARO K'IBYAREMWE BYOSE</h4>
+      <a href="/backend/new_akamaro" class="btn btn-primary" style="margin-left: 55%;">AKAMARO</a>
+  </div>
+  <hr>
+  <% if(akamaro_data.length > 0){ %>
+      <% if(errorMessage){ %>
+          <h4 style="color:brown; margin-left: 10rem;"><%= errorMessage %></h4>
+      <% } %>
+  <div class="row el-element-overlay">
+      <% for( let meaning of akamaro_data){ %>
+        
+      <div class="col-lg-3 col-md-6">
+          <div class="card">
+              <div class="el-card-item">
+                  <div class="el-card-avatar el-overlay-1"> 
+                      <img src="/uploads/<%= meaning.image %>" alt="user" />
+                  </div>
+                  <div class="el-card-content">
+                      <h4 class="m-b-0"><%= meaning.title %></h4> 
+                      <span class="text-muted"><%= meaning.subtitle %></span>
+                  </div>
+                  <hr>
+                  <div class="" style="text-align: center;">
+                      <a href=""class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal<%= meaning._id %>">Details</a>
+                      <a href="/backend/akamaro_edit/<%= meaning._id %>" class="btn btn-info btn-sm">Edit</a>
+                      <a href="/backend/akamaro_publish/<%= meaning._id %>" class="btn btn-success btn-sm">
+                          <% if(meaning.akamaro_status === '1'){ %>
+                              Unpublish
+                          <% }else{ %>
+                              Publish
+                          <% } %>
+                      </a>
+                      <a href="/backend/akamaro_delete/<%= meaning._id %>" class="btn btn-danger btn-sm">Delete</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="modal fade" id="myModal<%= meaning._id %>" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content ">
+            <div class="modal-header">
+              <h4 class="modal-title"><%= meaning.title %></h4>
+            </div>
+            <div class="modal-body">
+              <div class="el-card-avatar el-overlay-1" > 
+                <img src="/uploads/<%= meaning.image %>" alt="user" style="width: 100%;">
+            </div>
+              <h4 class="modal-title"><%= meaning.subtitle %></h4>
+              <p> <%= meaning.details_data %></p>
+              <p> <%= meaning.akamaro_date %></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <% } %>
+  </div>
+  <% }else{%>
+    <h3>No data in database</h3>
+<% } %>
+
+
+</div>
+<!-- ============================================================== -->
+<!-- End PAge Content -->
+<!-- ============================================================== -->
+
+<!-- ============================================================== -->
+<!-- Right sidebar -->
+<!-- ============================================================== -->
+<!-- .right-sidebar -->
+<!-- ============================================================== -->
+<!-- End Right sidebar -->
+<!-- ============================================================== -->
+</div>
+  <!-- /.container-fluid-->
+  <%- include('include/back_footer.ejs') %>
