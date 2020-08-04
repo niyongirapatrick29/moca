@@ -29,6 +29,7 @@
                         <div class="billing_form_area">
                             <form class="billing_form row" action="/checkout" method="POST" novalidate="novalidate">
                                 <div class="form-group col-md-6">
+                                    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
                                     <label for="first">First Name *</label>
                                     <input type="text" class="form-control" id="first" name="fname" placeholder="First Name">
                                 </div>

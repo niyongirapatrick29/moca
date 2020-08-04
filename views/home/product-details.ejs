@@ -1,5 +1,9 @@
 <%- include('includes/header.ejs'); %>
 
+    <!--  FOR LIVE CAKE PRICE CALCULATION -->
+    <link href="/stylesheets/cakeform.css" rel="stylesheet">
+    <script src="/javascripts/formcalculations.js"></script>
+
     <%- include('includes/menu_header.ejs');  %>
         <!--================End Main Header Area =================-->
         <section class="banner_area">
@@ -7,8 +11,8 @@
                 <div class="banner_text">
                     <h3>Product Details</h3>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="product-details.html">Product Details</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="product-details">Product Details</a></li>
                     </ul>
                 </div>
             </div>
@@ -26,7 +30,81 @@
                         <div class="product_details_text">
                             <h4>Brown Cake</h4>
                             <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequ untur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, </p>
-                            <h5>Price :<span>$24.5</span></h5>
+                            <!--         price calculator for cakes starts here --->
+                            <div class="panel panel-body">
+                                <div id="wrap" onload='hideTotal()'>
+                                    <form class="form-horizontal" action="" id="cakeform" onsubmit="return false;">
+                                        <div class="form-group">
+                                            <div class="cont_order">
+                                                <fieldset>
+                                                    <legend>Make your cake!| Customize your cake</legend>
+                                                    <label>Size Of the Cake</label>
+
+                                                    <label class='radiolabel'>
+                                                    <input type="radio"  name="selectedcake" value="Round6" onclick="calculateTotal()" /> Round cake 6" -  serves 8 people (Rwf 20,000)</label><br/>
+                                                    <label class="radiolabel form-check-label"><input type="radio"  name="selectedcake" value="Round8" onclick="calculateTotal()" /> Round cake 8" - serves 12 people (Rwf 25,000)</label><br/>
+                                                    <label class='radiolabel'>
+                                                        <input type="radio"  name="selectedcake" value="Round10" onclick="calculateTotal()" /> Round cake 10" - serves 16 people(Rwf 35,000)
+                                                    </label><br/>
+                                                    <label class='radiolabel'><input type="radio"  name="selectedcake" value="Round12" onclick="calculateTotal()" /> Round cake 12" - serves 30 people(Rwf 75,000)</label><br/>
+                                                    <br/>
+                                                    <label>Filling</label>
+
+                                                    <select id="filling" name='filling' onchange="calculateTotal()" class="form-control">
+                                                        <option value="None" disabled="disabled" selected="selected">Select Filling</option>
+                                                        <option value="Lemon">Lemon(Rwf 5,000)</option>
+                                                        <option value="Custard">Custard(Rwf 5,000)</option>
+                                                        <option value="Fudge">Fudge(Rwf 7,000)</option>
+                                                        <option value="Mocha">Mocha(Rwf 8,000)</option>
+                                                        <option value="Raspberry">Raspberry(Rwf 10,000)</option>
+                                                        <option value="Pineapple">Pineapple(Rwf 5,000)</option>
+                                                        <option value="Dobash">Dobash(Rwf 9,000)</option>
+                                                        <option value="Mint">Mint(Rwf 5)</option>
+                                                        <option value="Cherry">Cherry(Rwf 5,000)</option>
+                                                        <option value="Apricot">Apricot(Rwf 8,000)</option>
+                                                        <option value="Buttercream">Buttercream(Rwf 7,000)</option>
+                                                        <option value="Chocolate Mousse">Chocolate Mousse(Rwf 15,000)</option>
+                                                    </select>
+                                                    <br/>
+                                                    <p>
+                                                        <label for='includecandles' class="inlinelabel">Include Candles (Rwf 1,000)</label>
+                                                        <input type="checkbox" id="includecandles" name='includecandles' onclick="calculateTotal()" />
+                                                    </p>
+
+                                                    <p>
+                                                        <label class="inlinelabel" for='includeinscription'>Include Inscription(Rwf 1,000)</label>
+                                                        <input type="checkbox" id="includeinscription" name="includeinscription" onclick="calculateTotal()" />
+                                                        <input type="text" id="theinscription" name="theinscription" value="Enter Inscription" />
+                                                    </p>
+                                                    <div id="totalPrice"><b></b></div>
+
+                                                </fieldset>
+                                            </div>
+
+                                            <div class="cont_details">
+                                                <fieldset>
+                                                    <legend>Contact Details</legend>
+                                                    <label for='name'>Name</label>
+                                                    <input type="text" id="name" name='name' />
+                                                    <br/>
+                                                    <label for='address'>Address</label>
+                                                    <input type="text" id="address" name='address' />
+                                                    <br/>
+                                                    <label for='phonenumber'>Phone Number</label>
+                                                    <input type="text" id="phonenumber" name='phonenumber' />
+                                                    <br/>
+                                                </fieldset>
+                                            </div>
+                                            <input type='submit' id='submit' value='Submit' onclick="calculateTotal()" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--End of wrap-->
+
+
+                            <!--         price calculator for cakes ends here --->
+                            <h5>Price :<span>Rwf 24.5</span></h5>
                             <div class="quantity_box">
                                 <label for="quantity">Quantity :</label>
                                 <input type="text" placeholder="1" id="quantity">
@@ -84,7 +162,7 @@
                                 <img src="img/cake-feature/c-feature-1.jpg" alt="">
                             </div>
                             <div class="cake_text">
-                                <h4>$29</h4>
+                                <h4>Rwf 29</h4>
                                 <h3>Strawberry Cupcakes</h3>
                                 <a class="pest_btn" href="#">Add to cart</a>
                             </div>
@@ -96,7 +174,7 @@
                                 <img src="img/cake-feature/c-feature-2.jpg" alt="">
                             </div>
                             <div class="cake_text">
-                                <h4>$29</h4>
+                                <h4>Rwf 29</h4>
                                 <h3>Strawberry Cupcakes</h3>
                                 <a class="pest_btn" href="#">Add to cart</a>
                             </div>
@@ -108,7 +186,7 @@
                                 <img src="img/cake-feature/c-feature-3.jpg" alt="">
                             </div>
                             <div class="cake_text">
-                                <h4>$29</h4>
+                                <h4>Rwf 29</h4>
                                 <h3>Strawberry Cupcakes</h3>
                                 <a class="pest_btn" href="#">Add to cart</a>
                             </div>
@@ -120,7 +198,7 @@
                                 <img src="img/cake-feature/c-feature-4.jpg" alt="">
                             </div>
                             <div class="cake_text">
-                                <h4>$29</h4>
+                                <h4>Rwf 29</h4>
                                 <h3>Strawberry Cupcakes</h3>
                                 <a class="pest_btn" href="#">Add to cart</a>
                             </div>

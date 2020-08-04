@@ -90,10 +90,10 @@ router.post('/contact', (req, res, next) => {
 })
 
 
-/* CREATE USER      */
+/* CREATE USER  & Orders    */
 
 router.post('/checkout', (req, res, next) => {
-    console.log("Works");
+
     Order.create({
             fname: req.body.fname,
             lname: req.body.lname,
