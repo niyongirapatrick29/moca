@@ -11,7 +11,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const store = new MongoDBStore({
     uri: MONGODB_URI,
-    collection: 'kim_sessions'
+    collection: 'moca_sessions'
 });
 const flash = require('connect-flash');
 const upload = require('express-fileupload');
