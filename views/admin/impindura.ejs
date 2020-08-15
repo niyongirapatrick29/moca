@@ -1,58 +1,60 @@
 <%- include('include/back_head.ejs') %>
-  <!-- Navigation-->
-<%- include('include/back_top_navigation.ejs') %>
-<%- include('include/back_navigator.ejs') %>
-<!-- end Navigation-->
-  <!-- ============================================================== -->
-  <div class="page-wrapper">
-    <div class="container-fluid">
-       <!-- ============================================================== -->
-      <div class="row">   
-        <!-- card -->
-        <div class="card col-md-12">
-            <div class="card-body scrollable" style="max-height: 400px; display: flex;">
-                <h3 class="card-title m-b-0">IMPINDURA Z'UBUZIMA</h3>
-                <a href="/backend/impindura_nshya" class="btn btn-primary" style="margin-left: 60%;">INSHYA</a>
-                
-            </div>
-            <% if(errorMessage){ %>
-                <h4 style="color: brown;"><%= errorMessage %></h4>
-                <% } %>
-            
-            <% for(let news_impindura of data_impindura){ %>
-            <a class="card-header link border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-<%= news_impindura.id %>" aria-expanded="false" aria-controls="Toggle-<%= news_impindura.id %>">
-                <i class="seticon fa fa-times" aria-hidden="true"></i>
-                <span><%= news_impindura.umuhanga %></span>
-            </a>
-            <div id="Toggle-<%= news_impindura.id %>" class="multi-collapse collapse" >
-                <div class="row" style="display: flex;">
-                    <div class="p-2"><img src="/uploads/<%= news_impindura.image %>" alt="" width="60" class="rounded-circle"></div>
-                    <div class="card-body widget-content">
-                        <%= news_impindura.ijambo %>
-                        <hr>
-                        <div class="comment-footer">
-                            <span class="text-muted float-right">John Doe</span>&nbsp;&nbsp;&nbsp;
-                            <span class="text-muted float-right">April 14, 2016</span> 
+    <!-- Navigation-->
+    <%- include('include/back_top_navigation.ejs') %>
+        <%- include('include/back_navigator.ejs') %>
+            <!-- end Navigation-->
+            <!-- ============================================================== -->
+            <div class="page-wrapper">
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <!-- card -->
+                        <div class="card col-md-12">
+                            <div class="card-body scrollable" style="max-height: 400px; display: flex;">
+                                <h3 class="card-title m-b-0">IMPINDURA Z'UBUZIMA</h3>
+                                <a href="/admin/impindura_nshya" class="btn btn-primary" style="margin-left: 60%;">INSHYA</a>
 
-                            <a href="/backend/impindura_edit/<%= news_impindura._id %>" class="btn btn-primary btn-sm">Edit</a>
-                            <a href="/backend/impindura_publish/<%= news_impindura._id %>" class="btn btn-success btn-sm">
-                                <% if(news_impindura.news_status === '1'){ %>
-                                    Unpublish
-                                <% }else{ %>
-                                    Publish
+                            </div>
+                            <% if(errorMessage){ %>
+                                <h4 style="color: brown;">
+                                    <%= errorMessage %>
+                                </h4>
                                 <% } %>
-                            </a>
-                            <a href="/backend/impindura_delete/<%= news_impindura._id %>" class="btn btn-danger btn-sm">Delete</a>
+
+                                    <% for(let news_impindura of data_impindura){ %>
+                                        <a class="card-header link border-top" data-toggle="collapse" data-parent="#accordian-4" href="#Toggle-<%= news_impindura.id %>" aria-expanded="false" aria-controls="Toggle-<%= news_impindura.id %>">
+                                            <i class="seticon fa fa-times" aria-hidden="true"></i>
+                                            <span><%= news_impindura.umuhanga %></span>
+                                        </a>
+                                        <div id="Toggle-<%= news_impindura.id %>" class="multi-collapse collapse">
+                                            <div class="row" style="display: flex;">
+                                                <div class="p-2"><img src="/uploads/<%= news_impindura.image %>" alt="" width="60" class="rounded-circle"></div>
+                                                <div class="card-body widget-content">
+                                                    <%= news_impindura.ijambo %>
+                                                        <hr>
+                                                        <div class="comment-footer">
+                                                            <span class="text-muted float-right">John Doe</span>&nbsp;&nbsp;&nbsp;
+                                                            <span class="text-muted float-right">April 14, 2016</span>
+
+                                                            <a href="/admin/impindura_edit/<%= news_impindura._id %>" class="btn btn-primary btn-sm">Edit</a>
+                                                            <a href="/admin/impindura_publish/<%= news_impindura._id %>" class="btn btn-success btn-sm">
+                                                                <% if(news_impindura.news_status === '1'){ %>
+                                                                    Unpublish
+                                                                    <% }else{ %>
+                                                                        Publish
+                                                                        <% } %>
+                                                            </a>
+                                                            <a href="/admin/impindura_delete/<%= news_impindura._id %>" class="btn btn-danger btn-sm">Delete</a>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
                         </div>
+
                     </div>
+                    <!-- ============================================================== -->
                 </div>
             </div>
-            <% } %>
-        </div>
-        
-      </div>
-    <!-- ============================================================== -->
-    </div>
-  </div>
-<!-- ============================================================== -->
-<%- include('include/back_footer.ejs') %>
+            <!-- ============================================================== -->
+            <%- include('include/back_footer.ejs') %>

@@ -10,7 +10,7 @@
       <div class="row">   
         <div class="col-md-8 col-sm-12">
           <div class="card">
-              <form class="form-horizontal" action="/backend/<% if(editing){ %>edit_book<% }else{ %>new_gallery<% } %>" method="POST" enctype="multipart/form-data">
+              <form class="form-horizontal" action="/admin/<% if(editing){ %>edit_book<% }else{ %>new_gallery<% } %>" method="POST" enctype="multipart/form-data">
                   <div class="card-body">
                       <h3 class="card-title"><b>Fill the form to get a image in our gallery album</b></h3><hr>
                       <% if(errorMessage){ %>

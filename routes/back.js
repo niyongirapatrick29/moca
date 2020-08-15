@@ -4,7 +4,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const backController = require('../controller/backend');
+const backController = require('../controller/admin');
 
 const Authenticated = require('../middleware/isAuth');
 

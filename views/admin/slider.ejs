@@ -11,7 +11,7 @@
   <!-- ============================================================== -->
     <div class="row">
         <h4 class="card-title m-b-0">SLIDER IMAGES </h4>
-        <a href="/backend/new_slide_image" class="btn btn-primary" style="margin-left: 65%;">INSHYA</a>
+        <a href="/admin/new_slide_image" class="btn btn-primary" style="margin-left: 65%;">INSHYA</a>
     </div>
     <hr>
     <% if(slider_data.length > 0){ %>
@@ -32,15 +32,15 @@
                     </div>
                     <hr>
                     <div class="" style="text-align: center;">
-                        <a href="/backend/slide_edit/<%=slide._id %>" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="/backend/slide_publish/<%= slide._id %>" class="btn btn-success btn-sm">
+                        <a href="/admin/slide_edit/<%=slide._id %>" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/admin/slide_publish/<%= slide._id %>" class="btn btn-success btn-sm">
                             <% if(slide.slide_status === '1'){ %>
                                 Unpublish
                             <% }else{ %>
                                 Publish
                             <% } %>
                         </a>
-                        <a href="/backend/slide_delete/<%= slide._id %>" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="/admin/slide_delete/<%= slide._id %>" class="btn btn-danger btn-sm">Delete</a>
                     </div>
                 </div>
             </div>

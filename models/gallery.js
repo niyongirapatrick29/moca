@@ -1,30 +1,31 @@
 const mongoose = require('mongoose');
-
+const URLSlugs = require('mongoose-url-slugs');
 const Schema = mongoose.Schema;
 
 const Gallery_newSchema = new Schema({
-    image:{
+    image: {
         type: String,
         required: true
     },
-    title:{
+    title: {
         type: String,
         required: true
     },
-    subtitle:{
+    subtitle: {
         type: String,
         required: true
     },
-    writer:{
+    writer: {
         type: String,
         required: true
     },
-    gallery_status:{
+    gallery_status: {
         type: String,
         required: true
-    }
-},{
-    timestamps:true
+    },
+    slug: { type: String }
+}, {
+    timestamps: true
 });
-
+Gallery_newSchema.plugin(URLSlugs('title', { field: 'slug' }));
 module.exports = mongoose.model('gallery', Gallery_newSchema);

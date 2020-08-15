@@ -11,7 +11,7 @@
   <!-- ============================================================== -->
     <div class="row">
         <h4 class="card-title m-b-0">URUTONDE RW'IBYAMAZWA</h4>
-        <a href="/backend/new_anouncement" class="btn btn-primary" style="margin-left: 65%;">IGINSHYA</a>
+        <a href="/admin/new_anouncement" class="btn btn-primary" style="margin-left: 65%;">IGINSHYA</a>
     </div>
     <hr>
     <% if(anounce_data.length > 0){ %>
@@ -32,15 +32,15 @@
                     </div>
                     <hr>
                     <div class="" style="text-align: center;">
-                        <a href="/backend/anounce_edit/<%=anounce._id %>" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="/backend/anounce_publish/<%= anounce._id %>" class="btn btn-success btn-sm">
+                        <a href="/admin/anounce_edit/<%=anounce._id %>" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="/admin/anounce_publish/<%= anounce._id %>" class="btn btn-success btn-sm">
                             <% if(anounce.anounce_status === '1'){ %>
                                 Unpublish
                             <% }else{ %>
                                 Publish
                             <% } %>
                         </a>
-                        <a href="/backend/anounce_delete/<%= anounce._id %>" class="btn btn-danger btn-sm">Delete</a>
+                        <a href="/admin/anounce_delete/<%= anounce._id %>" class="btn btn-danger btn-sm">Delete</a>
                     </div>
                 </div>
             </div>

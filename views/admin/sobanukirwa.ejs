@@ -70,7 +70,7 @@
                                                             <%= ibisobanuro.ikibazo %>
                                                         </h4>
                                                         <hr>
-                                                        <form action="/backend/sobanukirwa" method="POST">
+                                                        <form action="/admin/sobanukirwa" method="POST">
                                                             <label for="igisubizo">IGISUBIZO</label>
                                                             <input type="hidden" name="ikibazo_ID" id="ikibazo_ID" value="<%=ibisobanuro._id %>">
                                                             <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">

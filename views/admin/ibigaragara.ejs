@@ -12,7 +12,7 @@
         <div class="card col-md-12 col-lg-12 col-sm-12">
             <div class="card-body" style="display: flex;">
                 <h3 class="card-title">URUTONDE RW'INKURU ZIGARAGARA</h3>
-                <a href="/backend/inkuru_nshya" class="btn btn-primary" style="margin-left: 40%;">INKURU NSHYA</a>
+                <a href="/admin/inkuru_nshya" class="btn btn-primary" style="margin-left: 40%;">INKURU NSHYA</a>
             </div>
             <% if(ibigaragara_data.length > 0){ %>
             <% if(errorMessage){ %>
@@ -31,16 +31,16 @@
                             <span class="text-muted float-right">April 14, 2016</span> 
                             <a href=""class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal<%= news_data._id %>">Details</a>
 
-                            <a href="/backend/edit_ibigaragara/<%=news_data._id %>" class="btn btn-primary btn-sm">Edit</a>
+                            <a href="/admin/edit_ibigaragara/<%=news_data._id %>" class="btn btn-primary btn-sm">Edit</a>
 
-                            <a href="/backend/publish_ibigaragara/<%= news_data._id %>" class="btn btn-success btn-sm">
+                            <a href="/admin/publish_ibigaragara/<%= news_data._id %>" class="btn btn-success btn-sm">
                                 <% if(news_data.news_status === '1'){ %>
                                     Unpublish
                                 <% }else{ %>
                                     Publish
                                 <% } %>
                             </a>
-                            <a href="/backend/delete_ibigaragara/<%= news_data._id %>" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="/admin/delete_ibigaragara/<%= news_data._id %>" class="btn btn-danger btn-sm">Delete</a>
                         </div>
                     </div>
                 </div>
