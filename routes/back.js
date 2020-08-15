@@ -91,9 +91,9 @@ router.get('/book_publish/:publish_ID', Authenticated, backController.getBookPub
 router.get('/book_delete/:deleteID', Authenticated, backController.getDeleteBook);
 
 /*##################################################################################################
-                                        ubwiza or gallery system
+                                        gallery or gallery system
 ###################################################################################################*/
-router.get('/ubwiza', Authenticated, backController.getGallery);
+router.get('/gallery', Authenticated, backController.getGallery);
 
 router.get('/new_gallery', Authenticated, backController.getNewGallery);
 

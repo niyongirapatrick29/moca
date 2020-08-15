@@ -11,8 +11,25 @@
                     <!-- Start Page Content -->
                     <!-- ============================================================== -->
                     <div class="row">
-                        <h4 class="card-title m-b-0">AMAFOTO AGATAGAZA UBWIZA BW'IBYAREMWE</h4>
-                        <a href="/backend/new_gallery" class="btn btn-primary" style="margin-left: 45%;">NSHYA</a>
+                        <div class="col-md-10 col-sm-10">
+                            <h4 class="alert alert-purple">Cakes Images</h4>
+                        </div>
+                        <div class="col-sm-2 col-md-2 col-lg-2">
+                            <a href="/admin/new_gallery" class="btn btn-primary btn-small"><i>New 
+                                <span class="fa fa-plus"></span></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div>
+                        <% if(errorMessage){ %>
+
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong><%= errorMessage %></strong> .
+                            </div>
+                            <% } %>
+
                     </div>
                     <hr>
                     <% if(gallery_data.length > 0){ %>
@@ -34,14 +51,14 @@
                     </div> -->
                                             <hr>
                                             <div class="" style="text-align: center;">
-                                                <a href="/backend/publish_gallery/<%= gallery._id %>" class="btn btn-success btn-sm">
+                                                <a href="/admin/publish_gallery/<%= gallery._id %>" class="btn btn-success btn-sm">
                                                     <% if(gallery.gallery_status === '1'){ %>
                                                         Unpublish
                                                         <% }else{ %>
                                                             Publish
                                                             <% } %>
                                                 </a>
-                                                <a href="/backend/delete_gallery/<%= gallery._id %>" class="btn btn-danger btn-sm">Delete</a>
+                                                <a href="/admin/delete_gallery/<%= gallery._id %>" class="btn btn-danger btn-sm">Delete</a>
                                             </div>
                                         </div>
                                     </div>
@@ -49,7 +66,10 @@
                                 <% } %>
                         </div>
                         <% }else{%>
-                            <h3>No data in database</h3>
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <h3 class="alert alert-warning">No Image found</h3>
+                            </div>
+
                             <% } %>
 
                 </div>
@@ -58,7 +78,7 @@
                         <% if (current == 1) { %>
                             <li class="disabled"><a>First</a></li>
                             <% } else { %>
-                                <li><a href="/backend/ubwiza/?page=1">First</a></li>
+                                <li><a href="/admin/gallery/?page=1">First</a></li>
                                 <% } %>
                                     <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
                                         <% if (i !== 1) { %>
@@ -73,7 +93,7 @@
                                                         </li>
                                                         <% } else { %>
                                                             <li>
-                                                                <a href="/backend/ubwiza/?page=<%= i %>">
+                                                                <a href="/admin/gallery/?page=<%= i %>">
                                                                     <%= i %>
                                                                 </a>
                                                             </li>
@@ -86,7 +106,7 @@
                                                                                 <li class="disabled"><a>Last</a></li>
                                                                                 <% } else { %>
                                                                                     <li>
-                                                                                        <a href="/backend/ubwiza/?page=<%= pages %>">
+                                                                                        <a href="/admin/gallery/?page=<%= pages %>">
                                                                                       Last
                                                                                     </a>
                                                                                     </li>

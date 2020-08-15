@@ -1,47 +1,50 @@
 <%- include('include/back_head.ejs') %>
-  <!-- Navigation-->
-<%- include('include/back_top_navigation.ejs') %>
-<%- include('include/back_navigator.ejs') %>
-<!-- end Navigation-->
-  <!-- ============================================================== -->
-  <div class="page-wrapper">
-    <div class="container-fluid">
-       <!-- ============================================================== -->
-      <div class="row">   
-        <div class="col-md-8 col-sm-12">
-          <div class="card">
-              <form class="form-horizontal" action="/backend/<% if(editing){ %>edit_book<% }else{ %>new_gallery<% } %>" method="POST" enctype="multipart/form-data">
-                  <div class="card-body">
-                      <h3 class="card-title"><b>Fill the form to get a image in our gallery album</b></h3><hr>
-                      <% if(errorMessage){ %>
-                        <h3 style="color: brown;"><%= errorMessage %></h3>
-                        <% } %>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group ">
-                                    <label for="image" class="col-sm-12  control-label col-form-label"> Image</label>
-                                    <div class="col-sm-12">
-                                        <input type="file" class="form-control" name="image" id="image" placeholder=" Here">
-                                    </div>
-                                </div>
-                                <div class="form-group ">
-                                    <label for="title" class="col-sm-12  control-label col-form-label"> Title</label>
-                                    <div class="col-sm-12">
-                                        <input type="text" class="form-control" name="title" id="title" placeholder="Title Here" value="<% if(editing){%><%=editing_data.title %><% } %>">
-                                    </div>
-                                </div>
-                                <div class="form-group ">
-                                    <label for="subtitle" class="col-sm-12 control-label col-form-label">Subtitle </label>
-                                    <div class="col-sm-12">
-                                        <% if(editing){ %>
-                                        <input type="hidden"  name="book_ID" id="book_ID" value="<%= editing_data._id %>">
-                                        <% } %>
-                                        <input type="hidden"  name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                                        <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="subtitle  Here"value="<% if(editing){%><%=editing_data.books %><% } %>">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="col-md-6">
+    <!-- Navigation-->
+    <%- include('include/back_top_navigation.ejs') %>
+        <%- include('include/back_navigator.ejs') %>
+            <!-- end Navigation-->
+            <!-- ============================================================== -->
+            <div class="page-wrapper">
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12">
+                            <div class="card">
+                                <form class="form-horizontal" action="/admin/<% if(editing){ %>edit_book<% }else{ %>new_gallery<% } %>" method="POST" enctype="multipart/form-data">
+                                    <div class="card-body">
+                                        <h3 class="card-title"><b>Fill the form to get a image in our gallery album</b></h3>
+                                        <hr>
+                                        <% if(errorMessage){ %>
+                                            <h3 style="color: brown;">
+                                                <%= errorMessage %>
+                                            </h3>
+                                            <% } %>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <div class="form-group ">
+                                                            <label for="image" class="col-sm-12  control-label col-form-label"> Image</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="file" class="form-control" name="image" id="image" placeholder=" Here">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label for="title" class="col-sm-12  control-label col-form-label"> Title</label>
+                                                            <div class="col-sm-12">
+                                                                <input type="text" class="form-control" name="title" id="title" placeholder="Title Here" value="<% if(editing){%><%=editing_data.title %><% } %>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label for="subtitle" class="col-sm-12 control-label col-form-label">Subtitle </label>
+                                                            <div class="col-sm-12">
+                                                                <% if(editing){ %>
+                                                                    <input type="hidden" name="book_ID" id="book_ID" value="<%= editing_data._id %>">
+                                                                    <% } %>
+                                                                        <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                                                                        <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="subtitle  Here" value="<% if(editing){%><%=editing_data.books %><% } %>">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="col-md-6">
                                 
                                 <div class="form-group ">
                                     <label for="title" class="col-sm-12  control-label col-form-label">Book Description</label>
@@ -50,21 +53,21 @@
                                     </div>
                                 </div>
                             </div> -->
+                                                </div>
+
+                                    </div>
+                                    <div class="border-top">
+                                        <div class="card-body">
+                                            <button type="submit" class="btn btn-primary"><% if(editing){ %>Save Changes<% }else{ %>Upload<% } %></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                      
-                  </div>
-                  <div class="border-top">
-                      <div class="card-body">
-                          <button type="submit" class="btn btn-primary"><% if(editing){ %>Save Changes<% }else{ %>Upload<% } %></button>
-                      </div>
-                  </div>
-              </form>
-          </div>
-        </div>
-        
-      </div>
-    <!-- ============================================================== -->
-    </div>
-  </div>
-<!-- ============================================================== -->
-<%- include('include/back_footer.ejs') %>
+
+                    </div>
+                    <!-- ============================================================== -->
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <%- include('include/back_footer.ejs') %>

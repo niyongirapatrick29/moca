@@ -3,78 +3,123 @@ const path = require('path');
 //use models (table) for storing data
 const Contact_us = require('../models/Contact_us');
 const Order = require('../models/Order');
+const Gallery = require('../models/gallery'); //Cakes images
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('home/index', { active_class: 'active' });
+    res.render('home/index', { path: '/' });
 });
 
 /* GET CAKE PAGE   */
 router.get('/cake', function(req, res, next) {
-    res.render('home/cake', { active_class: 'active' });
+    res.render('home/cake', { path: '/cake' });
 });
 
 /* GET ABOUT PAGE   */
 router.get('/about-moca', function(req, res, next) {
-    res.render('home/about-us', { active_class: 'active' });
+    res.render('home/about-us', { path: '/about-moca' });
 });
 
 /* GET testimonial PAGE   */
 router.get('/testimonials', function(req, res, next) {
-    res.render('home/testimonials', { active_class: 'active' });
+    res.render('home/testimonials', { path: '/testimonials' });
 });
 
 /* GET WHAT WE MAKE PAGE   */
 router.get('/what-we-make', function(req, res, next) {
-    res.render('home/what-we-make', { active_class: 'active' });
+    res.render('home/what-we-make', { path: '/what-we-make' });
 });
 
 
 /*======================= GALLERY PAGES======================   */
 /* GET Gallery PAGE 1  */
 router.get('/portfolio-full-width', function(req, res, next) {
-    res.render('home/portfolio-full-width', { active_class: 'active' });
+
+    res.render('home/portfolio-full-width', { path: '/portfolio-full-width' });
 });
 
 /* GET Gallery PAGE 2  */
 router.get('/portfolio', function(req, res, next) {
-    res.render('home/portfolio', { active_class: 'active' });
+    var perPage = 9;
+    var page = req.query.page || 1
+    Gallery.find({ gallery_status: "1" }).sort({ createdAt: -1 })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, result_gallery) {
+            Gallery.countDocuments().exec(function(err, count) {
+                if (err) return next(err)
+                res.render('home/portfolio', {
+                    data_gallery: result_gallery,
+                    pageTitle: 'Moca',
+                    path: '/portfolio',
+                    //errorMessage: message,
+                    current: page,
+                    pages: Math.ceil(count / perPage),
+                    csrfToken: req.csrfToken()
+                });
+            })
+        })
+
+    // res.render('home/portfolio', {
+    //         path: '/portfolio',
+    //         //images: images
+    //     }
+
+    // );
 });
 
 /* GET faq PAGE   */
 router.get('/faq', function(req, res, next) {
-    res.render('home/faq', { active_class: 'active' });
+    res.render('home/faq', { path: '/faq' });
 });
 
 /*   SHOP PAGES  */
 /* GET faq PAGE   */
 router.get('/shop', function(req, res, next) {
-    res.render('home/shop', { active_class: 'active' });
+    res.render('home/shop', { path: '/shop' });
 });
 /* GET faq PAGE   */
 router.get('/product-details', function(req, res, next) {
-    res.render('home/product-details', { active_class: 'active' });
+    res.render('home/product-details', { path: '/product-details' });
 });
 /* GET faq PAGE   */
 router.get('/checkout', function(req, res, next) {
-    res.render('home/checkout', { active_class: 'active' });
+    res.render('home/checkout', { path: '/checkout' });
 });
 
 /* GET faq PAGE   */
 router.get('/contact', function(req, res, next) {
-    res.render('home/contact', { active_class: 'active' });
+    let message = req.flash('success');
+    let error_message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+        error_message = null;
+    } else if (error_message.length > 0) {
+        message = null;
+        error_message = error_message[0];
+    } else {
+        message = null;
+        error_message = null;
+    }
+    res.render('home/contact', {
+        path: '/contact',
+        successMessage: message,
+        errorMessage: error_message,
+        csrfToken: req.csrfToken()
+    });
 });
 
 /* GET chat application page  */
 router.get('/chat', function(req, res, next) {
-    res.render('home/chat', { active_class: 'active' });
+    res.render('home/chat', { path: '/chat' });
 });
 
 /* CONTACT US FORM POST */
 
 router.post('/contact', (req, res, next) => {
-    console.log("Works");
+
+
     Contact_us.create({
             name: req.body.name,
             email: req.body.email,
@@ -82,11 +127,13 @@ router.post('/contact', (req, res, next) => {
             message: req.body.message
         })
         .then((message) => {
-            req.flash('error', 'Message is sent!! ');
-            //res.redirect('/contact');
+            req.flash('success', 'Message is sent!! ');
+            req.flash('error', 'Message is not sent!! ');
+            res.redirect('/contact');
             console.log('Message sent ');
         }, (err) => next(err))
         .catch((err) => next(err));
+
 })
 
 

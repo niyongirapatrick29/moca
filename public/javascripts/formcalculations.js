@@ -121,9 +121,13 @@ function calculateTotal() {
     //display the result
     var divobj = document.getElementById('totalPrice');
     divobj.style.display = 'block';
-    divobj.innerHTML = "Total Price For the Cake " + cakePrice + " Rwf";
+    divobj.innerHTML = "Total Price For the Cake is <b>" + cakePrice + " Rwf</b>";
 
+    var tt_cost = document.getElementById('tt_cost');
+    tt_cost.style.display = 'block';
+    tt_cost.innerHTML = cakePrice;
 }
+
 
 function hideTotal() {
     var divobj = document.getElementById('totalPrice');

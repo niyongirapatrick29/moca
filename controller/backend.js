@@ -736,10 +736,10 @@ exports.getGallery = (req, res, next) => {
         .exec(function(err, data) {
             Gallery.countDocuments().exec(function(err, count) {
                 if (err) return next(err)
-                res.render('admin/ubwiza', {
+                res.render('admin/gallery', {
                     gallery_data: data,
                     pageTitle: 'KIMEZAMIRYANGO',
-                    path: '/ubwiza',
+                    path: '/gallery',
                     errorMessage: message,
                     current: page,
                     pages: Math.ceil(count / perPage),
@@ -749,9 +749,9 @@ exports.getGallery = (req, res, next) => {
         })
 
     // .then(data => {
-    //     res.render('admin/ubwiza', {
+    //     res.render('admin/gallery', {
     //         pageTitle: 'KIMEZAMIRYANGO',
-    //         path: '/ubwiza',
+    //         path: '/gallery',
     //         errorMessage: message,
     //         csrfToken: req.csrfToken(),
     //         gallery_data: data
@@ -768,7 +768,7 @@ exports.getNewGallery = (req, res, next) => {
         message = null;
     }
     res.render('admin/new_gallery', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'Moca',
         path: '/new_gallery',
         errorMessage: message,
         csrfToken: req.csrfToken(),
@@ -784,7 +784,7 @@ exports.postNewGallery = (req, res, next) => {
         .then(result => {
 
             let image = req.files.image;
-            let imageName = 'Kimeza_gallery_' + Date.now() + '_' + image.name;
+            let imageName = 'Moca_gallery_' + Date.now() + '_' + image.name;
             image.mv('./uploads/' + imageName, (err) => {
                 if (err) throw err;
             });
@@ -800,7 +800,7 @@ exports.postNewGallery = (req, res, next) => {
         })
         .then(result => {
             req.flash('error', 'Image Well Inserted !! ');
-            res.redirect('/admin/ubwiza');
+            res.redirect('/admin/gallery');
         })
         .catch(err => console.log(err));
 };
@@ -809,15 +809,24 @@ exports.getDeleteGallery = (req, res, next) => {
     const DeletedID = req.params.deleteID;
     Gallery.findById(DeletedID)
         .then(data => {
+            const img_path = path.join(__dirname, '../uploads/' + data.image);
             if (!data) {
-                return next(new Error('Data is not foun'))
+                return next(new Error('Data is not found'))
             }
-            fileHelper.deleteFile(data.image);
-            return Gallery.deleteOne({ _id: DeletedID, writer: req.session.user._id });
+            //fileHelper.deleteFile(data.image);
+            fs.unlink(img_path, (err) => {
+                data.remove();
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Image Deleted");
+                    //Gallery.findByIdAndDelete({ _id: DeletedID });
+                }
+            })
         })
         .then(result => {
             req.flash('error', 'Image gallery deleted successfully !! ');
-            res.redirect('/admin/ubwiza');
+            res.redirect('/admin/gallery');
         })
         .catch(err => console.log(err));
 };
@@ -837,7 +846,7 @@ exports.getGalleryPublish = (req, res, next) => {
         })
         .then(result => {
             req.flash('error', 'Image Published !! ');
-            res.redirect('/admin/ubwiza');
+            res.redirect('/admin/gallery');
         })
         .catch(err => console.log(err));
 };

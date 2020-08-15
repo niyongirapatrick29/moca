@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const csrf = require('csurf');
 //mongodb+srv://niyongirapatrick29:Kike72549@cluster0.mcnqj.mongodb.net/Kimezamiryango?retryWrites=true&w=majority
-const MONGODB_URI = "mongodb+srv://niyongirapatrick29:Kike72549@cluster0.mcnqj.mongodb.net/Moca?retryWrites=true&w=majority";
-//const MONGODB_URI = "mongodb://localhost:27017/Moca";
+//const MONGODB_URI = "mongodb+srv://niyongirapatrick29:Kike72549@cluster0.mcnqj.mongodb.net/Moca?retryWrites=true&w=majority";
+const MONGODB_URI = "mongodb://localhost:27017/Moca";
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const store = new MongoDBStore({
@@ -34,6 +34,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// upload files
+app.use(upload());
+// app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 //===========================
 app.use(session({

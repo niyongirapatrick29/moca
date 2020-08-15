@@ -8,8 +8,8 @@
                 <div class="banner_text">
                     <h3>Portfolio</h3>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="portfolio">Portfolio</a></li>
                     </ul>
                 </div>
             </div>
@@ -30,137 +30,82 @@
 
                     </ul>
                 </div>
-                <div class="row grid_portfolio_area imageGallery1">
-                    <div class="col-md-4 col-6 cake bakery bread">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-1.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-1.jpg" alt="">
-                                </a>
+
+                <% if(data_gallery.length > 0){ %>
+
+                    <div class="row grid_portfolio_area imageGallery1">
+                        <% for(let gallery of data_gallery){ %>
+                            <div class="col-md-4 col-6 cake bakery bread">
+                                <div class="portfolio_item">
+                                    <div class="portfolio_img">
+                                        <a class="light" href="/uploads/<%=gallery.image %>">
+                                            <img class="img-fluid" src="/uploads/<%=gallery.image %>" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="portfolio_text">
+                                        <a href="/uploads/<%=gallery.image %>" target="_blank">
+                                            <h4>
+                                                <%=gallery.title %>
+                                            </h4>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
+                            <% } %>
                     </div>
-                    <div class="col-md-4 col-6 bakery choco">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-2.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-2.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 cake choco">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-3.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-3.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 cake choco">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-4.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-4.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 bakery past bread">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-5.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-5.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 past choco">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-6.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-6.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 bakery bread">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-7.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-7.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 past bread">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-8.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-8.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-6 bakery past bread">
-                        <div class="portfolio_item">
-                            <div class="portfolio_img">
-                                <a class="light" href="img/portfolio/portfolio-9.jpg">
-                                    <img class="img-fluid" src="img/portfolio/portfolio-9.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="portfolio_text">
-                                <a href="#">
-                                    <h4>Chocolate Pastry</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                    <% } %>
             </div>
         </section>
         <!--================End Portfolio Area Area =================-->
+
+        <!---======================= PAGINATION STARTS HERE ====================-->
+        <div class="container">
+
+            <!-- PAGINATION -->
+            <% if (pages > 0) { %>
+                <ul class="pagination text-center">
+                    <% if (current == 1) { %>
+                        <li class="disabled"><a>First</a></li>
+                        <% } else { %>
+                            <li><a href="/portfolio/?page=1">First</a></li>
+                            <% } %>
+                                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                    <% if (i !== 1) { %>
+                                        <li class="disabled"><a>...</a></li>
+                                        <% } %>
+                                            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                                <% if (i == current) { %>
+                                                    <li class="active">
+                                                        <a>
+                                                            <%= i %>
+                                                        </a>
+                                                    </li>
+                                                    <% } else { %>
+                                                        <li>
+                                                            <a href="/portfolio/?page=<%= i %>">
+                                                                <%= i %>
+                                                            </a>
+                                                        </li>
+                                                        <% } %>
+                                                            <% if (i == Number(current) + 4 && i < pages) { %>
+                                                                <li class="disabled"><a>...</a></li>
+                                                                <% } %>
+                                                                    <% } %>
+                                                                        <% if (current == pages) { %>
+                                                                            <li class="disabled"><a>Last</a></li>
+                                                                            <% } else { %>
+                                                                                <li>
+                                                                                    <a href="/portfolio/?page=<%= pages %>">
+                                                                              Last
+                                                                            </a>
+                                                                                </li>
+                                                                                <% } %>
+                </ul>
+                <% } %>
+        </div>
+        <!--================================= PAGINATION ENDS HERE ==================================-->
+
 
         <!--================Newsletter Area =================-->
         <section class="newsletter_area">
@@ -184,6 +129,8 @@
                 </div>
             </div>
         </section>
+
+
         <!--================End Newsletter Area =================-->
 
         <!--============================ PAGE  FOOTER   =================-->
