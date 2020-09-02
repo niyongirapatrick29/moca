@@ -33,12 +33,27 @@ router.get('/approve_user/:userID', Authenticated, backController.getApproveUser
 router.get('/delete_user/:userID', Authenticated, backController.getDeleteUser);
 
 /*##################################################################################################
+
+                                        ORDERS system
+###################################################################################################*/
+router.get('/orders', Authenticated, backController.getOrders);
+
+/*router.get('/add_user', Authenticated, backController.getAddUser);
+
+router.post('/add_user', backController.postNewUser);
+
+router.get('/approve_user/:userID', Authenticated, backController.getApproveUser);
+
+router.get('/delete_user/:userID', Authenticated, backController.getDeleteUser);*/
+
+/*##################################################################################################
+
                                         ibigaragara system
 ###################################################################################################*/
 
-router.get('/ibigaragara_view', Authenticated, backController.getIbigaragara);
+router.get('/products', Authenticated, backController.getIbigaragara);
 
-router.get('/inkuru_nshya', Authenticated, backController.getInkuruNshya);
+router.get('/new_product', Authenticated, backController.getInkuruNshya);
 
 router.post('/inkuru_nshya', Authenticated, backController.postInkuruNshya);
 

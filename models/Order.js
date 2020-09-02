@@ -17,7 +17,9 @@ const OrderSchema = new Schema({
     village: { type: String },
     street: { type: String },
     city: { type: String },
-    order_note: { type: String }
+    order_note: { type: String },
+    payment_method: { type: String, required: true },
+    status: { type: String, default: "Pending" }
 }, {
     timestamps: true
 });

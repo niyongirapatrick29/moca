@@ -215,56 +215,26 @@
                             <a class="pest_btn" href="#">View all Products</a>
                         </div>
                     </div>
-                    <div class="cake_feature_slider owl-carousel">
-                        <div class="item">
-                            <div class="cake_feature_item">
-                                <div class="cake_img">
-                                    <img src="img/cake-feature/c-feature-1.jpg" alt="">
+                    <% if(data_cakes.length > 0){ %>
+                        <div class="cake_feature_slider owl-carousel">
+                            <% for( let cakes of data_cakes){ %>
+                                <div class="item">
+                                    <div class="cake_feature_item">
+                                        <div class="cake_img">
+                                            <img src="/uploads/<%= cakes.image_news %>" alt="">
+                                        </div>
+                                        <div class="cake_text">
+                                            <h4>$29</h4>
+                                            <h3>
+                                                <%= cakes.subtitle %>
+                                            </h3>
+                                            <a class="pest_btn" href="/product-details/<%= cakes._id %>">Order now</a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="cake_text">
-                                    <h4>$29</h4>
-                                    <h3>Strawberry Cupcakes</h3>
-                                    <a class="pest_btn" href="#">Add to cart</a>
-                                </div>
-                            </div>
+                                <% } %>
                         </div>
-                        <div class="item">
-                            <div class="cake_feature_item">
-                                <div class="cake_img">
-                                    <img src="img/cake-feature/c-feature-2.jpg" alt="">
-                                </div>
-                                <div class="cake_text">
-                                    <h4>$29</h4>
-                                    <h3>Strawberry Cupcakes</h3>
-                                    <a class="pest_btn" href="#">Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="cake_feature_item">
-                                <div class="cake_img">
-                                    <img src="img/cake-feature/c-feature-3.jpg" alt="">
-                                </div>
-                                <div class="cake_text">
-                                    <h4>$29</h4>
-                                    <h3>Strawberry Cupcakes</h3>
-                                    <a class="pest_btn" href="#">Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="cake_feature_item">
-                                <div class="cake_img">
-                                    <img src="img/cake-feature/c-feature-4.jpg" alt="">
-                                </div>
-                                <div class="cake_text">
-                                    <h4>$29</h4>
-                                    <h3>Strawberry Cupcakes</h3>
-                                    <a class="pest_btn" href="#">Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <% } %>
                 </div>
             </div>
         </section>

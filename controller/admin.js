@@ -10,6 +10,7 @@ const fileHelper = require('../util/file');
 //const {isEmpty, uploadDir} = require('../middleware/helper');
 
 const User = require('../models/users');
+const Order = require('../models/Order');
 const Ibigaragara_news = require('../models/ibigaragara');
 const Impindura_Data = require('../models/impindura');
 const Book = require('../models/books');
@@ -30,7 +31,7 @@ exports.getIndex = (req, res, next) => {
         message = null;
     }
     res.render('admin/index', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'MOCA',
         path: '/admin',
         csrfToken: req.csrfToken(),
         errorMessage: message
@@ -81,7 +82,7 @@ exports.getLogout = (req, res, next) => {
 
 exports.getHome = (req, res, next) => {
     res.render('admin/home', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'MOCA',
         path: '/home',
         csrfToken: req.csrfToken()
     });
@@ -208,9 +209,9 @@ exports.getIbigaragara = (req, res, next) => {
     }
     Ibigaragara_news.find()
         .then(views => {
-            res.render('admin/ibigaragara', {
-                pageTitle: 'KIMEZAMIRYANGO',
-                path: '/ibigaragara_view',
+            res.render('admin/products', {
+                pageTitle: 'MOCA',
+                path: '/products',
                 csrfToken: req.csrfToken(),
                 errorMessage: message,
                 ibigaragara_data: views
@@ -226,9 +227,9 @@ exports.getInkuruNshya = (req, res, next) => {
     } else {
         message = null;
     }
-    res.render('admin/inkuru_nshya', {
-        pageTitle: 'KIMEZAMIRYANGO',
-        path: '/inkuru_nshya',
+    res.render('admin/new_product', {
+        pageTitle: 'MOCA',
+        path: '/new_product',
         errorMessage: message,
         csrfToken: req.csrfToken(),
         editing: false
@@ -269,8 +270,8 @@ exports.postInkuruNshya = (req, res, next) => {
             return new_ibigaragara.save();
         })
         .then(result => {
-            req.flash('error', 'news inserted successfully !! ');
-            res.redirect('/admin/ibigaragara_view');
+            req.flash('error', 'New product added successfully !! ');
+            res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
 };
@@ -291,7 +292,7 @@ exports.getDeleteIbigaragara = (req, res, next) => {
         })
         .then(result => {
             req.flash('error', 'news deleted successfully !! ');
-            res.redirect('/admin/ibigaragara_view');
+            res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
 };
@@ -311,7 +312,7 @@ exports.getPublish = (req, res, next) => {
         })
         .then(result => {
             req.flash('error', 'News Published successfully !! ');
-            res.redirect('/admin/ibigaragara_view');
+            res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
 };
@@ -326,8 +327,8 @@ exports.getEdited = (req, res, next) => {
     const EditedID = req.params.editID;
     Ibigaragara_news.findById(EditedID)
         .then(edit_data => {
-            res.render('admin/inkuru_nshya', {
-                pageTitle: 'KIMEZAMIRYANGO',
+            res.render('admin/new_product', {
+                pageTitle: 'MOCA',
                 path: '/edit_ibigaragara/',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -361,7 +362,7 @@ exports.postEditedData = (req, res, next) => {
         })
         .then(data => {
             req.flash('error', 'News Updated Successfully!! ');
-            res.redirect('/admin/ibigaragara_view');
+            res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
 };
@@ -371,7 +372,7 @@ exports.getInkuruDetails = (req, res, next) => {
     Ibigaragara_news.findById(details)
         .then(details => {
             res.render('admin/ibigaragara_details', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/ibigaragara_details',
                 details: details,
                 csrfToken: req.csrfToken()
@@ -394,7 +395,7 @@ exports.getImpindura = (req, res, next) => {
     Impindura_Data.find()
         .then(data => {
             res.render('admin/impindura', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/impindura',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -412,7 +413,7 @@ exports.getImpinduraNshya = (req, res, next) => {
         message = null;
     }
     res.render('admin/impindura_nshya', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'MOCA',
         path: '/impindura_nshya',
         errorMessage: message,
         csrfToken: req.csrfToken(),
@@ -488,7 +489,7 @@ exports.getEditedImpindura = (req, res, next) => {
     Impindura_Data.findById(editID)
         .then(editData => {
             res.render('admin/impindura_nshya', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/impindura_nshya',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -555,7 +556,7 @@ exports.getBooks = (req, res, next) => {
     Book.find()
         .then(data => {
             res.render('admin/books', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/books',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -573,7 +574,7 @@ exports.getNewBook = (req, res, next) => {
         message = null;
     }
     res.render('admin/new_book', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'MOCA',
         path: '/new_book',
         errorMessage: message,
         csrfToken: req.csrfToken(),
@@ -642,7 +643,7 @@ exports.getEditBook = (req, res, next) => {
     Book.findById(edit_ID)
         .then(edit_book => {
             res.render('admin/new_book', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/new_book',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -738,7 +739,7 @@ exports.getGallery = (req, res, next) => {
                 if (err) return next(err)
                 res.render('admin/gallery', {
                     gallery_data: data,
-                    pageTitle: 'KIMEZAMIRYANGO',
+                    pageTitle: 'MOCA',
                     path: '/gallery',
                     errorMessage: message,
                     current: page,
@@ -750,7 +751,7 @@ exports.getGallery = (req, res, next) => {
 
     // .then(data => {
     //     res.render('admin/gallery', {
-    //         pageTitle: 'KIMEZAMIRYANGO',
+    //         pageTitle: 'MOCA',
     //         path: '/gallery',
     //         errorMessage: message,
     //         csrfToken: req.csrfToken(),
@@ -863,7 +864,7 @@ exports.getAnouncement = (req, res, next) => {
     Anouncement.find()
         .then(data => {
             res.render('admin/anouncement', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/anouncement',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -881,7 +882,7 @@ exports.getNewAnouncement = (req, res, next) => {
         message = null;
     }
     res.render('admin/new_anouncement', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'MOCA',
         path: '/new_anouncement',
         errorMessage: message,
         csrfToken: req.csrfToken(),
@@ -929,7 +930,7 @@ exports.getEditAnouncement = (req, res, next) => {
     Anouncement.findById(edit_ID)
         .then(edit_anounce => {
             res.render('admin/new_anouncement', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/new_anouncement',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -1013,7 +1014,7 @@ exports.getAkamaro = (req, res, next) => {
     Akamaro.find()
         .then(data => {
             res.render('admin/akamaro', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/akamaro',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -1031,7 +1032,7 @@ exports.getNewAkamaro = (req, res, next) => {
         message = null;
     }
     res.render('admin/new_akamaro', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'MOCA',
         path: '/new_akamaro',
         errorMessage: message,
         csrfToken: req.csrfToken(),
@@ -1080,7 +1081,7 @@ exports.getEditAkamaro = (req, res, next) => {
     Akamaro.findById(edit_ID)
         .then(edit_akamaro => {
             res.render('admin/new_akamaro', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/new_anouncement',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -1166,7 +1167,7 @@ exports.getSlider = (req, res, next) => {
     Slider.find()
         .then(data => {
             res.render('admin/slider', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/slider',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -1184,7 +1185,7 @@ exports.getNewSlider = (req, res, next) => {
         message = null;
     }
     res.render('admin/new_slider', {
-        pageTitle: 'KIMEZAMIRYANGO',
+        pageTitle: 'MOCA',
         path: '/new_slide',
         errorMessage: message,
         csrfToken: req.csrfToken(),
@@ -1251,7 +1252,7 @@ exports.getEditSlider = (req, res, next) => {
     Slider.findById(edit_ID)
         .then(edit_slide => {
             res.render('admin/new_slider', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/new_slider',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -1326,7 +1327,7 @@ exports.getSobanukirwa = (req, res, next) => {
         .populate('comments')
         .then(sobanukirwa_data => {
             res.render('admin/sobanukirwa', {
-                pageTitle: 'KIMEZAMIRYANGO',
+                pageTitle: 'MOCA',
                 path: '/sobanukirwa',
                 errorMessage: message,
                 csrfToken: req.csrfToken(),
@@ -1406,4 +1407,113 @@ exports.deleteQuestion = (req, res, next) => {
             }
         }, (err) => next(err))
         .catch((err) => next(err));
+};
+
+
+//====================== ORDERS ================
+
+exports.getOrders = (req, res, next) => {
+    var perPage = 9;
+    var page = req.query.page || 1;
+
+    //let message = req.flash('error');
+    let message = '';
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+    Order.find()
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+
+    .exec(function(err, orders) {
+        Order.countDocuments().exec(function(err, count) {
+            if (err) return next(err)
+            res.render('admin/orders', {
+                orders: orders,
+                pageTitle: 'Moca',
+                path: '/orders',
+                errorMessage: message,
+                current: page,
+                pages: Math.ceil(count / perPage),
+                csrfToken: req.csrfToken()
+            });
+        })
+    })
+};
+
+exports.getAddUser = (req, res, next) => {
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+    res.render('admin/add-user', {
+        pageTitle: 'Moca',
+        path: '/add_user',
+        errorMessage: message,
+        csrfToken: req.csrfToken()
+    });
+};
+exports.postNewUser = (req, res, next) => {
+    const fname = req.body.fname;
+    const lname = req.body.lname;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    const passcode = req.body.passcode;
+    const address = req.body.address;
+    const user_status = '0';
+    User.findOne({ email: email })
+        .then(userEmail => {
+            if (userEmail) {
+                req.flash('error', 'email is already exist! ');
+                return res.redirect('/admin/add_user');
+            }
+            return bycrpt
+                .hash(passcode, 12)
+                .then(passcodeHash => {
+                    const users = new User({
+                        fname: fname,
+                        lname: lname,
+                        phone: phone,
+                        email: email,
+                        passcode: passcodeHash,
+                        address: address,
+                        user_status: user_status
+                    });
+                    return users.save();
+                })
+                .then(result => {
+                    req.flash('error', 'User well inserted!! ');
+                    res.redirect('/admin/users');
+                });
+        })
+        .catch(err => console.log(err));
+};
+
+exports.getApproveUser = (req, res, next) => {
+    const userID = req.params.userID;
+    const user_status = '1';
+    User.findById(userID)
+        .then(approved => {
+            approved.user_status = user_status;
+            return approved.save();
+        })
+        .then(result => {
+            req.flash('error', 'User well Approved!! ');
+            res.redirect('/admin/users');
+        })
+        .catch(err => console.log(err))
+};
+
+exports.getDeleteUser = (req, res, next) => {
+    const userID = req.params.userID;
+    User.findByIdAndRemove(userID)
+        .then(result => {
+            req.flash('error', 'User removed Successfully!! ');
+            res.redirect('/admin/users');
+        })
+        .catch(err => console.log(err))
 };

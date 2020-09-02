@@ -4,17 +4,76 @@ const path = require('path');
 const Contact_us = require('../models/Contact_us');
 const Order = require('../models/Order');
 const Gallery = require('../models/gallery'); //Cakes images
+const Cakes = require('../models/ibigaragara');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('home/index', { path: '/' });
+    var perPage = 9;
+    var page = req.query.page || 1
+    Cakes.find({ news_status: "1" })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, result_cakes) {
+            Cakes.countDocuments().exec(function(err, count) {
+                if (err) return next(err)
+                res.render('home/index', {
+                    data_cakes: result_cakes,
+                    pageTitle: 'Moca',
+                    path: '/',
+                    //errorMessage: message,
+                    current: page,
+                    pages: Math.ceil(count / perPage),
+                    csrfToken: req.csrfToken()
+                });
+            })
+        })
+        //res.render('home/index', { path: '/' });
 });
 
+//================================= CAKES ====================================
 /* GET CAKE PAGE   */
 router.get('/cake', function(req, res, next) {
-    res.render('home/cake', { path: '/cake' });
+    var perPage = 9;
+    var page = req.query.page || 1
+    Cakes.find({ news_status: "1" })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, result_cakes) {
+            Cakes.countDocuments().exec(function(err, count) {
+                if (err) return next(err)
+                res.render('home/cake', {
+                    data_cakes: result_cakes,
+                    pageTitle: 'Moca',
+                    path: '/cake',
+                    //errorMessage: message,
+                    current: page,
+                    pages: Math.ceil(count / perPage),
+                    csrfToken: req.csrfToken()
+                });
+            })
+        })
+        //res.render('home/cake', { path: '/cake' });
 });
+
+//======================= CAKE DETAILS ============================
+/* GET faq PAGE   */
+router.get('/product-details/:CAKEID', function(req, res, next) {
+    Cakes.findById({ _id: req.params.CAKEID })
+        .then(cake => {
+            res.render('home/product-details', {
+                pageTitle: 'MOCA',
+                path: '/product-details',
+                cake_details: cake,
+                csrfToken: req.csrfToken()
+            });
+        })
+        .catch(err => console.log(err))
+
+    //res.render('home/product-details', { path: '/product-details' });
+});
+
+
 
 /* GET ABOUT PAGE   */
 router.get('/about-moca', function(req, res, next) {
@@ -77,12 +136,29 @@ router.get('/faq', function(req, res, next) {
 /*   SHOP PAGES  */
 /* GET faq PAGE   */
 router.get('/shop', function(req, res, next) {
-    res.render('home/shop', { path: '/shop' });
+    var perPage = 9;
+    var page = req.query.page || 1
+    Cakes.find({ news_status: "1" })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, result_cakes) {
+            Cakes.countDocuments().exec(function(err, count) {
+                if (err) return next(err)
+                res.render('home/shop', {
+                    data_cakes: result_cakes,
+                    pageTitle: 'Moca',
+                    path: '/shop',
+                    //errorMessage: message,
+                    current: page,
+                    pages: Math.ceil(count / perPage),
+                    csrfToken: req.csrfToken()
+                });
+            })
+        })
+
+    //res.render('home/shop', { path: '/shop' });
 });
-/* GET faq PAGE   */
-router.get('/product-details', function(req, res, next) {
-    res.render('home/product-details', { path: '/product-details' });
-});
+
 /* GET faq PAGE   */
 router.get('/checkout', function(req, res, next) {
     res.render('home/checkout', { path: '/checkout' });
