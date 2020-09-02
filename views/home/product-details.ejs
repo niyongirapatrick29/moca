@@ -5,6 +5,13 @@
     <script src="/javascripts/formcalculations.js"></script>
 
     <%- include('includes/menu_header.ejs');  %>
+        <style>
+            /* Hide all steps by default: */
+            
+            .tab {
+                display: none;
+            }
+        </style>
         <!--================End Main Header Area =================-->
         <section class="banner_area">
             <div class="container">
@@ -68,8 +75,20 @@
                             <p>Customize your cake at a level you wish. You may like to use calculator OR keep as it's. </p>
                             <!--         price calculator for cakes starts here --->
                             <div class="panel panel-body">
-                                <div id="wrap" onload='hideTotal()' style="background-image: url(/img/shop-page-bg.png); padding: 5px;">
-                                    <form class="form-horizontal" action="" id="cakeform" onsubmit="return false;">
+                                <!--  -->
+                                <!--End of wrap-->
+                                <!--         price calculator for cakes ends here --->
+
+                                <!-- <h5>Price :<span id="tt">Rwf 24.5</span></h5>
+                            <div class="quantity_box">
+                                <label for="quantity">Quantity :</label>
+                                <input type="text" placeholder="1" id="quantity">
+                            </div>
+                            <a class="pink_more" href="checkout/">Add to Cart</a> -->
+
+                                <form id="cakeform" action="/action_page.php">
+                                    <!-- One "tab" for each step in the form: -->
+                                    <div class="tab">Name:
                                         <div class="form-group">
                                             <div class="cont_order">
                                                 <fieldset>
@@ -80,86 +99,102 @@
 
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                          <input type="radio" class="form-check-input" name="selectedcake" value="Round6" onclick="calculateTotal()">Round cake 6" -  serves 8 people (Rwf 20,000)
-                                                        </label>
+                                                      <input type="radio" class="form-check-input" name="selectedcake" value="Round6" onclick="calculateTotal()">Round cake 6" -  serves 8 people (Rwf 20,000)
+                                                    </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                          <input type="radio" class="form-check-input" name="selectedcake" value="Round8" onclick="calculateTotal()" >Round cake 8" - serves 12 people (Rwf 25,000)
-                                                        </label>
+                                                      <input type="radio" class="form-check-input" name="selectedcake" value="Round8" onclick="calculateTotal()" >Round cake 8" - serves 12 people (Rwf 25,000)
+                                                    </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                          <input type="radio" class="form-check-input" name="selectedcake" value="Round8" onclick="calculateTotal()" /> Round cake 8" - serves 12 people (Rwf 25,000)
-                                                        </label>
+                                                      <input type="radio" class="form-check-input" name="selectedcake" value="Round8" onclick="calculateTotal()" /> Round cake 8" - serves 12 people (Rwf 25,000)
+                                                    </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                          <input type="radio" class="form-check-input"  name="selectedcake" value="Round10" onclick="calculateTotal()" /> Round cake 10" - serves 16 people(Rwf 35,000)
-                                                        </label>
+                                                      <input type="radio" class="form-check-input"  name="selectedcake" value="Round10" onclick="calculateTotal()" /> Round cake 10" - serves 16 people(Rwf 35,000)
+                                                    </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                          <input type="radio" class="form-check-input"   name="selectedcake" value="Round12" onclick="calculateTotal()" /> Round cake 12" - serves 30 people(Rwf 75,000)
-                                                        </label>
+                                                      <input type="radio" class="form-check-input"   name="selectedcake" value="Round12" onclick="calculateTotal()" /> Round cake 12" - serves 30 people(Rwf 75,000)
+                                                    </label>
                                                     </div>
                                                     <hr>
                                                     <label class="text">Filling</label>
                                                     <hr>
                                                     <select id="filling" name='filling' onchange="calculateTotal()" class="custom-select">
-                                                        <option value="None" disabled="disabled" selected="selected">Select Filling</option>
-                                                        <option value="Lemon">Lemon(Rwf 5,000)</option>
-                                                        <option value="Custard">Custard(Rwf 5,000)</option>
-                                                        <option value="Fudge">Fudge(Rwf 7,000)</option>
-                                                        <option value="Mocha">Mocha(Rwf 8,000)</option>
-                                                        <option value="Raspberry">Raspberry(Rwf 10,000)</option>
-                                                        <option value="Pineapple">Pineapple(Rwf 5,000)</option>
-                                                        <option value="Dobash">Dobash(Rwf 9,000)</option>
-                                                        <option value="Mint">Mint(Rwf 5,000)</option>
-                                                        <option value="Cherry">Cherry(Rwf 5,000)</option>
-                                                        <option value="Apricot">Apricot(Rwf 8,000)</option>
-                                                        <option value="Buttercream">Buttercream(Rwf 7,000)</option>
-                                                        <option value="Chocolate Mousse">Chocolate Mousse(Rwf 15,000)</option>
-                                                    </select>
+                                                    <option value="None" disabled="disabled" selected="selected">Select Filling</option>
+                                                    <option value="Lemon">Lemon(Rwf 5,000)</option>
+                                                    <option value="Custard">Custard(Rwf 5,000)</option>
+                                                    <option value="Fudge">Fudge(Rwf 7,000)</option>
+                                                    <option value="Mocha">Mocha(Rwf 8,000)</option>
+                                                    <option value="Raspberry">Raspberry(Rwf 10,000)</option>
+                                                    <option value="Pineapple">Pineapple(Rwf 5,000)</option>
+                                                    <option value="Dobash">Dobash(Rwf 9,000)</option>
+                                                    <option value="Mint">Mint(Rwf 5,000)</option>
+                                                    <option value="Cherry">Cherry(Rwf 5,000)</option>
+                                                    <option value="Apricot">Apricot(Rwf 8,000)</option>
+                                                    <option value="Buttercream">Buttercream(Rwf 7,000)</option>
+                                                    <option value="Chocolate Mousse">Chocolate Mousse(Rwf 15,000)</option>
+                                                </select>
 
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                          <input type="checkbox" class="form-check-input" id="includecandles" name='includecandles' onclick="calculateTotal()">Include Candles (Rwf 1,000)
-                                                        </label>
+                                                      <input type="checkbox" class="form-check-input" id="includecandles" name='includecandles' onclick="calculateTotal()">Include Candles (Rwf 1,000)
+                                                    </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                              <input type="checkbox" class="form-check-input" id="includeinscription" name="includeinscription" onclick="calculateTotal()">Include Inscription(Rwf 1,000)
-                                                        </label>
+                                                          <input type="checkbox" class="form-check-input" id="includeinscription" name="includeinscription" onclick="calculateTotal()">Include Inscription(Rwf 1,000)
+                                                    </label>
                                                     </div>
                                                     <input type="text" class="form-control" id="theinscription" name="theinscription" value="Enter Inscription" />
                                                     <div id="totalPrice" class="alert alert-info"></div>
 
+                                                    <input type="text" id="tt_cost" name="tt_cost" readonly> Total cost
                                                 </fieldset>
                                             </div>
-                                            <input type='submit' id='submit' class="btn btn-info" value='Next' onclick="calculateTotal()"> <i class="fa fa-arrow-right"></i>
-
+                                            <!-- <input type='submit' id='submit' class="btn btn-info" value='Next' onclick="calculateTotal()"> <i class="fa fa-arrow-right"></i> -->
+                                            <!-- <input type='submit' class="btn btn-info" value='Next'> <i class="fa fa-arrow-right"></i> -->
                                         </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div class="tab">Contact Info:
+                                        <p><input placeholder="E-mail..." oninput="this.className = ''" name="email"></p>
+                                        <p><input placeholder="Phone..." oninput="this.className = ''" name="phone"></p>
+                                    </div>
+                                    <div class="tab">Birthday:
+                                        <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
+                                        <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
+                                        <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
+                                    </div>
+                                    <div class="tab">Login Info:
+                                        <p><input placeholder="Username..." oninput="this.className = ''" name="uname"></p>
+                                        <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p>
+                                    </div>
+                                    <div style="overflow:auto;">
+                                        <div style="float:right;">
+                                            <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-primary">Previous</button>
+                                            <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn btn-info" value='Next'> <i class="fa fa-arrow-right"></i>Next</button>
+                                        </div>
+                                    </div>
+                                    <!-- Circles which indicates the steps of the form: -->
+                                    <div style="text-align:center;margin-top:40px;">
+                                        <span class="step"></span>
+                                        <span class="step"></span>
+                                        <span class="step"></span>
+                                        <span class="step"></span>
+                                    </div>
+                                </form>
                             </div>
-                            <!--End of wrap-->
-                            <!--         price calculator for cakes ends here --->
-
-                            <!-- <h5>Price :<span id="tt">Rwf 24.5</span></h5>
-                            <div class="quantity_box">
-                                <label for="quantity">Quantity :</label>
-                                <input type="text" placeholder="1" id="quantity">
-                            </div>
-                            <a class="pink_more" href="checkout/">Add to Cart</a> -->
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-
         </section>
+        <script>
+        </script>
         <!--================End Product Details Area =================-->
 
         <!--================Newsletter Area =================-->
