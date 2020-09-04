@@ -194,8 +194,6 @@ router.get('/chat', function(req, res, next) {
 /* CONTACT US FORM POST */
 
 router.post('/contact', (req, res, next) => {
-
-
     Contact_us.create({
             name: req.body.name,
             email: req.body.email,
@@ -210,18 +208,26 @@ router.post('/contact', (req, res, next) => {
         }, (err) => next(err))
         .catch((err) => next(err));
 
-})
+});
 
 
 /* CREATE USER  & Orders    */
 
-router.post('/checkout', (req, res, next) => {
+router.post('/SendOrder', (req, res, next) => {
 
     Order.create({
             fname: req.body.fname,
             lname: req.body.lname,
             phone: req.body.phone,
             email: req.body.email,
+            image: req.body.image,
+            cake_name: req.body.cake_name,
+            selectedcake: req.body.selectedcake,
+            filling: req.body.filling,
+            includecandles: req.body.includecandles,
+            includeinscription: req.body.includeinscription,
+            theinscription: req.body.theinscription,
+            tt_cost: req.body.tt_cost,
             country: req.body.country,
             province: req.body.province,
             district: req.body.district,
@@ -230,7 +236,8 @@ router.post('/checkout', (req, res, next) => {
             village: req.body.village,
             street: req.body.street,
             city: req.body.city,
-            order_note: req.body.message
+            order_note: req.body.message,
+            orderdate: req.body.orderdate
         })
         .then((order) => {
             req.flash('error', 'Order is sent!! ');

@@ -748,17 +748,6 @@ exports.getGallery = (req, res, next) => {
                 });
             })
         })
-
-    // .then(data => {
-    //     res.render('admin/gallery', {
-    //         pageTitle: 'MOCA',
-    //         path: '/gallery',
-    //         errorMessage: message,
-    //         csrfToken: req.csrfToken(),
-    //         gallery_data: data
-    //     });
-    // })
-    // .catch(err => console.log(err));
 };
 
 exports.getNewGallery = (req, res, next) => {
@@ -1155,7 +1144,7 @@ exports.getPublishAkamaro = (req, res, next) => {
         .catch(err => console.log(err));
 };
 /*################################################################
-                        slider image byose
+                   MANAGE slider image 
 #################################################################*/
 exports.getSlider = (req, res, next) => {
     let message = req.flash('error');
@@ -1338,7 +1327,6 @@ exports.getSobanukirwa = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-
 exports.postSobanukirwa = (req, res, next) => {
     const ikibazo_ID = req.body.ikibazo_ID;
     const igisubizo = req.body.igisubizo;
@@ -1409,39 +1397,7 @@ exports.deleteQuestion = (req, res, next) => {
         .catch((err) => next(err));
 };
 
-
-//====================== ORDERS ================
-
-exports.getOrders = (req, res, next) => {
-    var perPage = 9;
-    var page = req.query.page || 1;
-
-    //let message = req.flash('error');
-    let message = '';
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    Order.find()
-        .skip((perPage * page) - perPage)
-        .limit(perPage)
-
-    .exec(function(err, orders) {
-        Order.countDocuments().exec(function(err, count) {
-            if (err) return next(err)
-            res.render('admin/orders', {
-                orders: orders,
-                pageTitle: 'Moca',
-                path: '/orders',
-                errorMessage: message,
-                current: page,
-                pages: Math.ceil(count / perPage),
-                csrfToken: req.csrfToken()
-            });
-        })
-    })
-};
+/* ============================== MANAGE USERS  =========================*/
 
 exports.getAddUser = (req, res, next) => {
     let message = req.flash('error');
@@ -1457,6 +1413,7 @@ exports.getAddUser = (req, res, next) => {
         csrfToken: req.csrfToken()
     });
 };
+
 exports.postNewUser = (req, res, next) => {
     const fname = req.body.fname;
     const lname = req.body.lname;
@@ -1517,3 +1474,64 @@ exports.getDeleteUser = (req, res, next) => {
         })
         .catch(err => console.log(err))
 };
+//##===================================== MANAGE USERS ENDS HERE   =====================*/
+
+//***************************************   MANAGE  ORDERS -************************ */
+
+exports.getOrders = (req, res, next) => {
+    var perPage = 9;
+    var page = req.query.page || 1;
+
+    //let message = req.flash('error');
+    let message = '';
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+    Order.find()
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+
+    .exec(function(err, orders) {
+        Order.countDocuments().exec(function(err, count) {
+            if (err) return next(err)
+            res.render('admin/orders', {
+                orders: orders,
+                pageTitle: 'Moca',
+                path: '/orders',
+                errorMessage: message,
+                current: page,
+                pages: Math.ceil(count / perPage),
+                csrfToken: req.csrfToken()
+            });
+        })
+    })
+};
+
+exports.getApproveOrder = (req, res, next) => {
+    const orderID = req.params.orderID;
+    const status = 'Paid';
+    Order.findById(orderID)
+        .then(order => {
+            order.status = status;
+            return order.save();
+        })
+        .then(result => {
+            req.flash('error', 'Order is well Updated!! ');
+            res.redirect('/admin/orders');
+        })
+        .catch(err => console.log(err))
+};
+
+exports.getDeleteOrder = (req, res, next) => {
+    const orderID = req.params.orderID;
+    Order.findByIdAndRemove(orderID)
+        .then(result => {
+            req.flash('error', 'Order Deleted Successfully!! ');
+            res.redirect('/admin/orders');
+        })
+        .catch(err => console.log(err))
+};
+
+/* =================== ORDERS ENDS HERE ============================*/

@@ -9,6 +9,15 @@ const OrderSchema = new Schema({
     lname: { type: String },
     phone: { type: String },
     email: { type: String },
+    // cakes details
+    image: { type: String },
+    cake_name: { type: String },
+    selectedcake: { type: String },
+    filling: { type: String },
+    includecandles: { type: String },
+    includeinscription: { type: String },
+    theinscription: { type: String },
+    tt_cost: { type: String },
     country: { type: String },
     province: { type: String },
     district: { type: String },
@@ -18,8 +27,10 @@ const OrderSchema = new Schema({
     street: { type: String },
     city: { type: String },
     order_note: { type: String },
-    payment_method: { type: String, required: true },
-    status: { type: String, default: "Pending" }
+    payment_method: { type: String, default: "MOMO" },
+    payment_status: { type: String, default: "Not Paid" },
+    order_status: { type: String, default: "Not yet delivered" },
+    orderdate: { type: String }
 }, {
     timestamps: true
 });

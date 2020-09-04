@@ -72,7 +72,6 @@
                             <h4>
                                 <%= cake_details.subtitle %>
                             </h4>
-                            <p>Customize your cake at a level you wish. You may like to use calculator OR keep as it's. </p>
                             <!--         price calculator for cakes starts here --->
                             <div class="panel panel-body">
                                 <!--  -->
@@ -86,9 +85,12 @@
                             </div>
                             <a class="pink_more" href="checkout/">Add to Cart</a> -->
 
-                                <form id="cakeform" action="/action_page.php">
+                                <form id="cakeform" action="/SendOrder" method="POST">
+
                                     <!-- One "tab" for each step in the form: -->
-                                    <div class="tab">Name:
+                                    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                                    <div class="tab">
+                                        <p>Customize your cake at a level you wish. You may like to use calculator OR keep as it's. </p>
                                         <div class="form-group">
                                             <div class="cont_order">
                                                 <fieldset>
@@ -96,7 +98,8 @@
                                                         <img src="/img/price_cal-1.png" alt="" width="100%">
                                                     </div>
                                                     <label><b>Size Of the Cake:</b></label>
-
+                                                    <input type="hidden" name="image" value="<%= cake_details.image_news %>">
+                                                    <input type="hidden" name="cake_name" value="<%= cake_details.subtitle %>">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
                                                       <input type="radio" class="form-check-input" name="selectedcake" value="Round6" onclick="calculateTotal()">Round cake 6" -  serves 8 people (Rwf 20,000)
@@ -161,37 +164,92 @@
                                             <!-- <input type='submit' class="btn btn-info" value='Next'> <i class="fa fa-arrow-right"></i> -->
                                         </div>
                                     </div>
-                                    <div class="tab">Contact Info:
-                                        <p><input placeholder="E-mail..." oninput="this.className = ''" name="email"></p>
-                                        <p><input placeholder="Phone..." oninput="this.className = ''" name="phone"></p>
-                                    </div>
-                                    <div class="tab">Birthday:
-                                        <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
-                                        <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
-                                        <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
-                                    </div>
-                                    <div class="tab">Login Info:
-                                        <p><input placeholder="Username..." oninput="this.className = ''" name="uname"></p>
-                                        <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p>
-                                    </div>
-                                    <div style="overflow:auto;">
-                                        <div style="float:right;">
-                                            <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-primary">Previous</button>
-                                            <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn btn-info" value='Next'> <i class="fa fa-arrow-right"></i>Next</button>
+                                    <div class="tab">Contact Information
+                                        <hr>
+                                        <div class="form-group col-md-6">
+                                            <label for="first">First Name *</label>
+                                            <input type="text" class="form-control" id="first" name="fname" placeholder="First Name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="last">Last Name *</label>
+                                            <input type="text" class="form-control" id="last" name="lname" placeholder="Last Name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="email">Email Address *</label>
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="phone">Phone *</label>
+                                            <input type="text" class="form-control" maxlength="10" minlength="10" id="phone" name="phone" placeholder="07XXXXXXXX">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="address">Address *</label>
+                                            <hr>
+                                            <select class="product_select" id="state1" disabled="disabled">
+                                                <option data-display="Select an option" disabled="disabled">Select an option</option>
+                                                <option value="1" disabled="disabled">Select an option</option>
+                                                <option value="Rwanda" selected="selected">Rwanda</option> 
+                                                <option value="Burundi" disabled="disabled">Burundi</option>
+                                                <option value="Uganda" disabled="disabled">Uganda</option>
+                                                <option value="Tanzania" disabled="disabled">Tanzania</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <select class="product_select" id="state1">
+                                                <!-- <option data-display="0" selected="selected" disabled="disabled">Select Province</option> -->
+                                                <option value="Kigali">Kigali city</option>
+                                                <option value="South">South province</option> 
+                                                <option value="North" >Northren province</option>
+                                                <option value="West" >Western province</option>
+                                                <option value="East" >Eastern province</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <input type="text" class="form-control" id="district" name="district" placeholder="District Name">
+                                            <input type="text" class="form-control" id="sector" name="sector" placeholder="Sector Name">
+                                            <input type="text" class="form-control" id="cell" name="cell" placeholder="Cell Name">
+                                            <input type="text" class="form-control" id="village" name="village" placeholder="Village Name">
+                                            <input type="text" class="form-control" id="street" name="steet" placeholder="Street Address">
+                                            <input type="text" class="form-control" id="address2" name="address2" placeholder="Apartment, Suit unit etc (optional)">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label for="city">Town / City *</label>
+                                            <input type="text" class="form-control" id="city" name="city" placeholder="Town /City">
                                         </div>
                                     </div>
-                                    <!-- Circles which indicates the steps of the form: -->
-                                    <div style="text-align:center;margin-top:40px;">
-                                        <span class="step"></span>
-                                        <span class="step"></span>
-                                        <span class="step"></span>
-                                        <span class="step"></span>
+                                    <div class="tab">Order Notes and time
+                                        <hr>
+                                        <p><input type="datetime-local" name="orderdate" placeholder="select pick date"></p>
+                                        <div class="form-group col-md-12">
+                                            <label for="phone">Order Notes</label>
+                                            <textarea class="form-control" name="message" id="message" rows="1" placeholder="Note about your order. e.g. special note for delivery"></textarea>
+                                        </div>
                                     </div>
-                                </form>
+                                    <div class="tab">Login Info:
+                                        <!-- <p><input placeholder="Username..." oninput="this.className = ''" name="uname"></p>
+                                        <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p> -->
+
+                                    </div>
                             </div>
+                            <div style="overflow:auto;">
+                                <div style="float:right;">
+                                    <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-primary">Previous</button>
+                                    <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn btn-info" value='Next'> <i class="fa fa-arrow-right"></i>Next</button>
+                                </div>
+                            </div>
+                            <!-- Circles which indicates the steps of the form: -->
+                            <div style="text-align:center;margin-top:40px;">
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                                <span class="step"></span>
+                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
         <script>
         </script>
@@ -220,9 +278,6 @@
             </div>
         </section>
         <!--================End Newsletter Area =================-->
-
-
-
 
         <!--============================ PAGE  FOOTER   =================-->
         <%- include('includes/footer.ejs') %>

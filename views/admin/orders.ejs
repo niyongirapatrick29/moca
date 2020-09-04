@@ -27,67 +27,82 @@
                                     </h3>
                                     <% } %>
                                         <% if(orders.length > 0){ %>
-                                            <table class="table table-dark table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col ">Names</th>
-                                                        <th scope="col ">Phone</th>
-                                                        <th scope="col ">Email</th>
-                                                        <th scope="col ">Address</th>
-                                                        <th scope="col ">Status</th>
-                                                        <th scope="col ">Payment method</th>
-                                                        <th scope="col ">Actions</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% for(let orders_data of orders){ %>
+                                            <div class="overflow-auto">
+                                                <table class="table table-dark table-hover">
+                                                    <thead>
                                                         <tr>
-                                                            <td>
-                                                                <%= orders_data.fname %>
-                                                                    <%= orders_data.lname %>
-                                                            </td>
-                                                            <td class="text-success ">
-                                                                <%= orders_data.phone %>
-                                                            </td>
-                                                            <td class="text-info ">
-                                                                <%= orders_data.email %>
-                                                            </td>
-                                                            <td class="text-success ">
-                                                                <%= orders_data.district %> |
-                                                                    <%= orders_data.sector %> |
-                                                                        <%= orders_data.cell %> |
-                                                                            <%= orders_data.village %>
-                                                            </td>
-                                                            <td>
-                                                                <%= orders_data.status %>
-                                                            </td>
-                                                            <td>
-                                                                <%= orders_data.payment_method %>
-                                                            </td>
-                                                            <td style="display:flex ">
-                                                                <div style="margin-left: 0rem; ">
-                                                                    <a class="btn <% if(orders_data.orders_status==1 ){ %> btn-success
-                                                <% }else{ %> btn-info
-                                                    <% } %>" href="/admin/approve_orders/
-                                                        <%= orders_data.id %>">
-                                                                        <i class="mdi mdi-check"></i>
-                                                                    </a>
-
-                                                                </div>
-
-                                                                <div style="margin-left: 1rem;">
-                                                                    <a class="btn btn-danger" href="/admin/delete_orders/<%= orders_data.id %>">
-                                                                        <i class="mdi mdi-close"></i>
-                                                                    </a>
-
-                                                                </div>
-
-
-                                                            </td>
+                                                            <th scope="col ">Names</th>
+                                                            <th scope="col ">Phone</th>
+                                                            <th scope="col ">Email</th>
+                                                            <th scope="col ">Address</th>
+                                                            <th scope="col ">Cake name</th>
+                                                            <th scope="col ">Image</th>
+                                                            <th scope="col ">payment Status</th>
+                                                            <th scope="col ">Shipping Status</th>
+                                                            <th scope="col ">Payment method</th>
+                                                            <th scope="col ">Actions</th>
                                                         </tr>
-                                                        <% } %>
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% for(let orders_data of orders){ %>
+                                                            <tr>
+                                                                <td>
+                                                                    <%= orders_data.fname %>
+                                                                        <%= orders_data.lname %>
+                                                                </td>
+                                                                <td class="text-success ">
+                                                                    <%= orders_data.phone %>
+                                                                </td>
+                                                                <td class="text-info ">
+                                                                    <%= orders_data.email %>
+                                                                </td>
+                                                                <td class="text-success ">
+                                                                    <%= orders_data.district %> |
+                                                                        <%= orders_data.sector %> |
+                                                                            <%= orders_data.cell %> |
+                                                                                <%= orders_data.village %>
+                                                                </td>
+                                                                <td>
+                                                                    <%=orders_data.cake_name %>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="/uploads/<%=orders_data.image %>">
+                                                                  <img src="/uploads/<%=orders_data.image %>" width="50" height="auto" alt="Cake photo">
+                                                                </a>
+                                                                </td>
+                                                                <td>
+                                                                    <%= orders_data.payment_status %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= orders_data.order_status %>
+                                                                </td>
+                                                                <td>
+                                                                    <%= orders_data.payment_method %>
+                                                                </td>
+                                                                <td style="display:flex ">
+                                                                    <div style="margin-left: 0rem; ">
+                                                                        <a class="btn <% if(orders_data.orders_status==1 ){ %> btn-success
+                                                <% }else{ %> btn-info
+                                                    <% } %>" href="/admin/approve_orders/<%= orders_data._id %>">
+                                                                            <i class="mdi mdi-check"></i>
+                                                                        </a>
+
+                                                                    </div>
+
+                                                                    <div style="margin-left: 1rem;">
+                                                                        <a class="btn btn-danger" href="/admin/delete_orders/<%= orders_data.id %>">
+                                                                            <i class="mdi mdi-close"></i>
+                                                                        </a>
+
+                                                                    </div>
+
+
+                                                                </td>
+                                                            </tr>
+                                                            <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <% }else{ %>
                                                 <h1>No orders in the system</h1>
                                                 <% } %>

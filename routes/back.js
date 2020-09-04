@@ -37,6 +37,8 @@ router.get('/delete_user/:userID', Authenticated, backController.getDeleteUser);
                                         ORDERS system
 ###################################################################################################*/
 router.get('/orders', Authenticated, backController.getOrders);
+router.get('/approve_orders/:orderID', Authenticated, backController.getApproveOrder);
+router.get('/delete_orders/:orderID', Authenticated, backController.getDeleteOrder);
 
 /*router.get('/add_user', Authenticated, backController.getAddUser);
 
@@ -44,7 +46,7 @@ router.post('/add_user', backController.postNewUser);
 
 router.get('/approve_user/:userID', Authenticated, backController.getApproveUser);
 
-router.get('/delete_user/:userID', Authenticated, backController.getDeleteUser);*/
+router.get('/delete_user/:userID', Authenticated, backController.getDeleteOrder);*/
 
 /*##################################################################################################
 
