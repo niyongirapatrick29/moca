@@ -37,9 +37,11 @@
                                                             <th scope="col ">Address</th>
                                                             <th scope="col ">Cake name</th>
                                                             <th scope="col ">Image</th>
+                                                            <th scope="col ">Total cost</th>
                                                             <th scope="col ">payment Status</th>
                                                             <th scope="col ">Shipping Status</th>
                                                             <th scope="col ">Payment method</th>
+                                                            <th scope="col ">Total cost</th>
                                                             <th scope="col ">Actions</th>
                                                         </tr>
                                                     </thead>
@@ -69,6 +71,9 @@
                                                                     <a href="/uploads/<%=orders_data.image %>">
                                                                   <img src="/uploads/<%=orders_data.image %>" width="50" height="auto" alt="Cake photo">
                                                                 </a>
+                                                                </td>
+                                                                <td>
+                                                                    <%= orders_data.tt_cost  %> Rwf
                                                                 </td>
                                                                 <td>
                                                                     <%= orders_data.payment_status %>
