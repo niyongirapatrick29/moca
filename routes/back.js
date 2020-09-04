@@ -57,7 +57,7 @@ router.get('/products', Authenticated, backController.getIbigaragara);
 
 router.get('/new_product', Authenticated, backController.getInkuruNshya);
 
-router.post('/inkuru_nshya', Authenticated, backController.postInkuruNshya);
+router.post('/newCake', Authenticated, backController.postNewCake);
 
 router.get('/ibigaragara_details/:detailsID', Authenticated, backController.getInkuruDetails);
 

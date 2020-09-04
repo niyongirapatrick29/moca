@@ -201,6 +201,9 @@ exports.getDeleteUser = (req, res, next) => {
                         ibigaragara
 #################################################################*/
 exports.getIbigaragara = (req, res, next) => {
+    var perPage = 5;
+    var page = req.query.page || 1;
+
     let message = req.flash('error');
     if (message.length > 0) {
         message = message[0];
@@ -208,17 +211,55 @@ exports.getIbigaragara = (req, res, next) => {
         message = null;
     }
     Ibigaragara_news.find()
-        .then(views => {
-            res.render('admin/products', {
-                pageTitle: 'MOCA',
-                path: '/products',
-                csrfToken: req.csrfToken(),
-                errorMessage: message,
-                ibigaragara_data: views
-            });
-        })
-        .catch(err => console.log(err));
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, cakes) {
+            Ibigaragara_news.countDocuments().exec(function(err, count) {
+                if (err) return next(err)
+                res.render('admin/products', {
+                    ibigaragara_data: cakes,
+                    pageTitle: 'Moca',
+                    path: '/products',
+                    errorMessage: message,
+                    current: page,
+                    pages: Math.ceil(count / perPage),
+                    csrfToken: req.csrfToken()
+                });
+            })
+        });
 };
+
+
+// exports.getUsers = (req, res, next) => {
+//     var perPage = 9;
+//     var page = req.query.page || 1;
+
+//     //let message = req.flash('error');
+//     let message = '';
+//     if (message.length > 0) {
+//         message = message[0];
+//     } else {
+//         message = null;
+//     }
+//     User.find()
+//         .skip((perPage * page) - perPage)
+//         .limit(perPage)
+
+//     .exec(function(err, users) {
+//         User.countDocuments().exec(function(err, count) {
+//             if (err) return next(err)
+//             res.render('admin/users', {
+//                 user: users,
+//                 pageTitle: 'Moca',
+//                 path: '/users',
+//                 errorMessage: message,
+//                 current: page,
+//                 pages: Math.ceil(count / perPage),
+//                 csrfToken: req.csrfToken()
+//             });
+//         })
+//     })
+// };
 
 exports.getInkuruNshya = (req, res, next) => {
     let message = req.flash('error');
@@ -236,12 +277,12 @@ exports.getInkuruNshya = (req, res, next) => {
     });
 };
 
-exports.postInkuruNshya = (req, res, next) => {
+exports.postNewCake = (req, res, next) => {
     //const image = req.file;
     const title = req.body.title;
     const subtitle = req.body.subtitle;
     const full_news = req.body.full_news;
-    User.findOne({ id: req.session.id })
+    User.findOne({ _id: req.session._id })
         .then(result => {
             // if(!image){
             //     req.flash('error', 'Please File should be an image !! ');
