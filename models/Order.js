@@ -18,6 +18,7 @@ const OrderSchema = new Schema({
     includeinscription: { type: String },
     theinscription: { type: String },
     tt_cost: { type: String },
+    transactionId: { type: String },
     country: { type: String },
     province: { type: String },
     district: { type: String },
@@ -27,7 +28,7 @@ const OrderSchema = new Schema({
     street: { type: String },
     city: { type: String },
     order_note: { type: String },
-    payment_method: { type: String, default: "MOMO" },
+    payment_method: { type: String, requred: true },
     payment_status: { type: String, default: "Not Paid" },
     order_status: { type: String, default: "Not yet delivered" },
     orderdate: { type: String }

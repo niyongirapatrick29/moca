@@ -11,7 +11,7 @@ const Anouncement_newSchema = new Schema({
         type: String,
         required: true
     },
-    subtitle:{
+    product_subtitle:{
         type: String,
         required: true
     },

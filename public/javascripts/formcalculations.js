@@ -128,6 +128,53 @@ function calculateTotal() {
     tt_cost.innerHTML = cakePrice;
 
     document.getElementById('tt_cost').value = cakePrice;
+
+    var totalP = document.getElementById('totalP');
+    totalP.style.display = 'block';
+    totalP.innerHTML = "current price: <span>" + cakePrice + " Rwf </span>"
+
+    document.getElementById('totalP').value = "current price: <span>" + cakePrice + "</span>";
+
+    var theForm = document.forms["cakeform"];
+    //Get a reference to the checkbox id="includeinscription"
+    var message = theForm.elements["message"];
+
+    var orderNote = document.getElementById('orderNote');
+    orderNote.style.display = 'block';
+    orderNote.innerHTML = message;
+
+    document.getElementById('totalP').value = "current price: <span>" + cakePrice + "</span>";
+
+
+    document.getElementById('totalP').value = cakePrice;
+
+    //Transaction Id
+    var date = new Date();
+    var components = [
+        "Moca",
+        date.getYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+        date.getMilliseconds()
+    ];
+
+    var id = components.join("");
+
+    var trID = document.getElementById('trID');
+    trID.style.display = 'block';
+    trID.innerHTML = "Order ID: <span>" + id + "</span>";
+
+    document.getElementById('trID').value = "Order ID: <span>" + id + "</span>";
+
+    //include transaction or Order Id in form 
+    var transactionId = document.getElementById('transactionId');
+    transactionId.style.display = 'block';
+    transactionId.innerHTML = id;
+
+    document.getElementById('transactionId').value = id;
 }
 
 

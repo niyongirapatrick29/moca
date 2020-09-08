@@ -19,7 +19,7 @@ const impindura_newSchema = new Schema({
         type: String,
         required: true
     },
-    news_status:{
+    product_status:{
         type: String,
         required: true
     }

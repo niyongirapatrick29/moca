@@ -23,27 +23,34 @@
                     <h2>Our Cakes</h2>
                     <h5>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</h5>
                 </div>
-                <div class="cake_feature_row row">
-                    <% if(data_cakes.length > 0){ %>
-                        <% for( let cakes of data_cakes){ %>
-                            <div class="col-lg-3 col-md-4 col-6">
-                                <div class="cake_feature_item">
-                                    <a href="/product-details/<%= cakes._id %>">
-                                        <div class="cake_img">
-                                            <img src="/uploads/<%= cakes.image_news %>" alt="">
-                                        </div>
-                                    </a>
-                                    <div class="cake_text">
-                                        <h4>$29</h4>
-                                        <h3>Strawberry Cupcakes</h3>
-                                        <a class="pest_btn" href="/product-details/<%= cakes._id %>"><i class="fa fa-info"></i>&nbsp;More details </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <% } %>
-                                <% } %>
+                <% if(successMessage){ %>
 
-                </div>
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong><%= successMessage %></strong> .
+                    </div>
+                    <% } %>
+                        <div class="cake_feature_row row">
+                            <% if(data_cakes.length > 0){ %>
+                                <% for( let cakes of data_cakes){ %>
+                                    <div class="col-lg-3 col-md-4 col-6">
+                                        <div class="cake_feature_item">
+                                            <a href="/product-details/<%= cakes._id %>">
+                                                <div class="cake_img">
+                                                    <img src="/uploads/<%= cakes.image_news %>" alt="">
+                                                </div>
+                                            </a>
+                                            <div class="cake_text">
+                                                <h4>$29</h4>
+                                                <h3>Strawberry Cupcakes</h3>
+                                                <a class="pest_btn" href="/product-details/<%= cakes._id %>"><i class="fa fa-info"></i>&nbsp;More details </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <% } %>
+
+                        </div>
             </div>
         </section>
         <!--================End Blog Main Area =================-->

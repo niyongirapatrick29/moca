@@ -4,23 +4,22 @@ const path = require('path');
 
 const bycrpt = require('bcryptjs');
 const Comments = require('../models/comments');
-
+const Category = require('../models/Category');
 const fileHelper = require('../util/file');
 
 //const {isEmpty, uploadDir} = require('../middleware/helper');
 
 const User = require('../models/users');
 const Order = require('../models/Order');
-const Ibigaragara_news = require('../models/ibigaragara');
-const Impindura_Data = require('../models/impindura');
-const Book = require('../models/books');
+const CakeProduct = require('../models/cake');
+//const Impindura_Data = require('../models/impindura');
+//const Book = require('../models/books');
 const Gallery = require('../models/gallery');
 const Anouncement = require('../models/Anouncement');
-const Akamaro = require('../models/akamaro');
+//const Akamaro = require('../models/akamaro');
 const Slider = require('../models/slider');
 const Sobanukirwa = require('../models/sobanukirwa');
 const { throws } = require('assert');
-const sobanukirwa = require('../models/sobanukirwa');
 
 
 exports.getIndex = (req, res, next) => {
@@ -95,8 +94,8 @@ exports.getUsers = (req, res, next) => {
     var perPage = 9;
     var page = req.query.page || 1;
 
-    //let message = req.flash('error');
-    let message = '';
+    let message = req.flash('error');
+    //let message = '';
     if (message.length > 0) {
         message = message[0];
     } else {
@@ -198,9 +197,9 @@ exports.getDeleteUser = (req, res, next) => {
 };
 
 /*################################################################
-                        ibigaragara
+                        cake
 #################################################################*/
-exports.getIbigaragara = (req, res, next) => {
+exports.getProduct = (req, res, next) => {
     var perPage = 5;
     var page = req.query.page || 1;
 
@@ -210,14 +209,14 @@ exports.getIbigaragara = (req, res, next) => {
     } else {
         message = null;
     }
-    Ibigaragara_news.find()
+    CakeProduct.find()
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, cakes) {
-            Ibigaragara_news.countDocuments().exec(function(err, count) {
+            CakeProduct.countDocuments().exec(function(err, count) {
                 if (err) return next(err)
                 res.render('admin/products', {
-                    ibigaragara_data: cakes,
+                    products: cakes,
                     pageTitle: 'Moca',
                     path: '/products',
                     errorMessage: message,
@@ -230,58 +229,31 @@ exports.getIbigaragara = (req, res, next) => {
 };
 
 
-// exports.getUsers = (req, res, next) => {
-//     var perPage = 9;
-//     var page = req.query.page || 1;
-
-//     //let message = req.flash('error');
-//     let message = '';
-//     if (message.length > 0) {
-//         message = message[0];
-//     } else {
-//         message = null;
-//     }
-//     User.find()
-//         .skip((perPage * page) - perPage)
-//         .limit(perPage)
-
-//     .exec(function(err, users) {
-//         User.countDocuments().exec(function(err, count) {
-//             if (err) return next(err)
-//             res.render('admin/users', {
-//                 user: users,
-//                 pageTitle: 'Moca',
-//                 path: '/users',
-//                 errorMessage: message,
-//                 current: page,
-//                 pages: Math.ceil(count / perPage),
-//                 csrfToken: req.csrfToken()
-//             });
-//         })
-//     })
-// };
-
-exports.getInkuruNshya = (req, res, next) => {
+exports.getNewProduct = (req, res, next) => {
     let message = req.flash('error');
     if (message.length > 0) {
         message = message[0];
     } else {
         message = null;
     }
-    res.render('admin/new_product', {
-        pageTitle: 'MOCA',
-        path: '/new_product',
-        errorMessage: message,
-        csrfToken: req.csrfToken(),
-        editing: false
-    });
+    Category.find({})
+        .exec(function(err, categories) {
+            res.render('admin/new_product', {
+                pageTitle: 'MOCA',
+                categories: categories,
+                path: '/new_product',
+                errorMessage: message,
+                csrfToken: req.csrfToken(),
+                editing: false
+            });
+        });
+
 };
 
 exports.postNewCake = (req, res, next) => {
-    //const image = req.file;
     const title = req.body.title;
-    const subtitle = req.body.subtitle;
-    const full_news = req.body.full_news;
+    const product_subtitle = req.body.product_subtitle;
+    const cake_description = req.body.cake_description;
     User.findOne({ _id: req.session._id })
         .then(result => {
             // if(!image){
@@ -295,14 +267,14 @@ exports.postNewCake = (req, res, next) => {
             image.mv('./uploads/' + filename, (err) => {
                 if (err) throw err;
             });
-            //console.log(filename);
-            const new_ibigaragara = new Ibigaragara_news({
+            const new_ibigaragara = new CakeProduct({
                 title: title,
-                subtitle: subtitle,
-                full_news: full_news,
+                product_subtitle: product_subtitle,
+                cake_description: cake_description,
                 image_news: filename,
                 writer: req.session.user.fname,
-                news_status: '0',
+                product_status: '0',
+                category: req.body.category,
                 new_date: new Date(),
                 news_comment: {
                     comment: []
@@ -317,22 +289,62 @@ exports.postNewCake = (req, res, next) => {
         .catch(err => console.log(err));
 };
 
-exports.getDeleteIbigaragara = (req, res, next) => {
+////*******************   ADD CAKE CATEGORY ======================== */
+exports.postNewCategory = (req, res, next) => {
+    Category.findOne({ categoryName: req.body.category })
+        .then(categoryf => {
+            if (categoryf) {
+                req.flash('error', 'Category already exist! ');
+                return res.redirect('/admin/new_product');
+            }
+            const category = new Category({
+                categoryName: req.body.category,
+                author: req.session.user._id
+            });
+            return category.save()
+                .then(result => {
+                    req.flash('error', req.body.category + ' Category Added!!');
+                    res.redirect('/admin/new_product');
+                });
+        })
+        .catch(err => console.log(err));
+};
+
+//*=================================  delete category ============================= */
+
+exports.getDeleteCategory = (req, res, next) => {
     const DeletedID = req.params.deleteID;
-    Ibigaragara_news.findById(DeletedID)
+    Category.findById(DeletedID)
+        .then(data => {
+            if (!data) {
+                return next(new Error('Data is not found'))
+            } else {
+                data.remove();
+            }
+        })
+        .then(result => {
+            req.flash('error', 'Category deleted successfully!!');
+            res.redirect('/admin/new_product');
+        })
+        .catch(err => console.log(err));
+};
+
+/*********======================  delete category ends here ================================*/
+
+exports.getDeleteProduct = (req, res, next) => {
+    const DeletedID = req.params.deleteID;
+    CakeProduct.findById(DeletedID)
         .then(data => {
             if (!data) {
                 return next(new Error('Data is not foun'))
             } else {
                 fs.unlink(path.join(__dirname, '/../uploads/') + data.image_news, (err) => {
-                    //return Impindura_Data.deleteOne({ _id:DeletedID, writer:req.session.user._id });
                     data.remove();
-                    //console.log("Deleted :" + path.join( __dirname,'/../uploads/') + data.image);
                 });
             }
         })
         .then(result => {
-            req.flash('error', 'news deleted successfully !! ');
+            req.flash('error', 'Product deleted successfully !! ');
             res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
@@ -340,19 +352,22 @@ exports.getDeleteIbigaragara = (req, res, next) => {
 
 exports.getPublish = (req, res, next) => {
     const publishedID = req.params.publishID;
-    let news_status = '';
-    Ibigaragara_news.findById(publishedID)
+    let product_status = '';
+    let ms = "";
+    CakeProduct.findById(publishedID)
         .then(publish => {
-            if (publish.news_status === '1') {
-                news_status = '0';
+            if (publish.product_status === '1') {
+                ms = "UnPublished successfully !!";
+                product_status = '0';
             } else {
-                news_status = '1';
+                product_status = '1';
+                ms = "Published successfully !!";
             }
-            publish.news_status = news_status;
+            publish.product_status = product_status;
             return publish.save();
         })
         .then(result => {
-            req.flash('error', 'News Published successfully !! ');
+            req.flash('error', ms);
             res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
@@ -366,16 +381,20 @@ exports.getEdited = (req, res, next) => {
         message = null;
     }
     const EditedID = req.params.editID;
-    Ibigaragara_news.findById(EditedID)
+    CakeProduct.findById(EditedID)
         .then(edit_data => {
-            res.render('admin/new_product', {
-                pageTitle: 'MOCA',
-                path: '/edit_ibigaragara/',
-                errorMessage: message,
-                csrfToken: req.csrfToken(),
-                editing_data: edit_data,
-                editing: true
-            });
+            Category.find({})
+                .exec(function(err, categories) {
+                    res.render('admin/new_product', {
+                        pageTitle: 'MOCA',
+                        path: '/edit_product',
+                        errorMessage: message,
+                        csrfToken: req.csrfToken(),
+                        editing_data: edit_data,
+                        categories: categories,
+                        editing: true
+                    });
+                })
         })
         .catch(err => con);
 };
@@ -383,10 +402,11 @@ exports.getEdited = (req, res, next) => {
 exports.postEditedData = (req, res, next) => {
 
     const edit_title = req.body.title;
-    const edit_subtitle = req.body.subtitle;
-    const edit_full_news = req.body.full_news;
+    const edit_subtitle = req.body.product_subtitle;
+    const edit_full_news = req.body.cake_description;
+    const category = req.body.category;
     const EditedID = req.body.editID;
-    Ibigaragara_news.findById(EditedID)
+    CakeProduct.findById(EditedID)
         .then(result => {
             let edit_image = req.files.image;
             let edit_image_name = '';
@@ -397,24 +417,25 @@ exports.postEditedData = (req, res, next) => {
             });
             result.image_news = edit_image_name;
             result.title = edit_title;
-            result.subtitle = edit_subtitle;
-            result.full_news = edit_full_news;
+            result.product_subtitle = edit_subtitle;
+            result.category = category;
+            result.cake_description = edit_full_news;
             return result.save();
         })
         .then(data => {
-            req.flash('error', 'News Updated Successfully!! ');
+            req.flash('error', 'Product Updated Successfully!! ');
             res.redirect('/admin/products');
         })
         .catch(err => console.log(err));
 };
 
-exports.getInkuruDetails = (req, res, next) => {
+exports.getProductDetails = (req, res, next) => {
     const details = req.params.detailsID;
-    Ibigaragara_news.findById(details)
+    CakeProduct.findById(details)
         .then(details => {
-            res.render('admin/ibigaragara_details', {
+            res.render('admin/product-details', {
                 pageTitle: 'MOCA',
-                path: '/ibigaragara_details',
+                path: '/products',
                 details: details,
                 csrfToken: req.csrfToken()
             });
@@ -423,345 +444,9 @@ exports.getInkuruDetails = (req, res, next) => {
 
 };
 
+
 /*################################################################
-                        impindura
-#################################################################*/
-exports.getImpindura = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    Impindura_Data.find()
-        .then(data => {
-            res.render('admin/impindura', {
-                pageTitle: 'MOCA',
-                path: '/impindura',
-                errorMessage: message,
-                csrfToken: req.csrfToken(),
-                data_impindura: data
-            });
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getImpinduraNshya = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    res.render('admin/impindura_nshya', {
-        pageTitle: 'MOCA',
-        path: '/impindura_nshya',
-        errorMessage: message,
-        csrfToken: req.csrfToken(),
-        editing: false
-    });
-};
-
-exports.postImpinduraNshya = (req, res, next) => {
-    //const image  = req.file;
-    const umuhanga = req.body.umuhanga;
-    const ijambo = req.body.ijambo;
-    User.findOne({ _id: req.session.user._id })
-        .then(result => {
-            // if(!image){
-            //     req.flash('error', 'Please File should be an image !! ');
-            //     res.redirect('/admin/inkuru_nshya');
-            // }
-            //const image_path = image.path;
-            let filename = '';
-            //if(!isEmpty(req.files)){
-            let image = req.files.image;
-            filename = Date.now() + 'kimeza_' + image.name;
-            image.mv('./uploads/' + filename, (err) => {
-                if (err) throw err;
-            });
-            //console.log(filename);
-            //} 
-            const new_impindura = new Impindura_Data({
-                image: filename,
-                umuhanga: umuhanga,
-                ijambo: ijambo,
-                writer: req.session.user._id,
-                news_status: '0'
-            });
-            return new_impindura.save();
-        })
-        .then(result => {
-            req.flash('error', 'Impindura inserted successfully !! ');
-            res.redirect('/admin/impindura');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getDeleteImpindura = (req, res, next) => {
-    const DeletedID = req.params.deleteID;
-    Impindura_Data.findById(DeletedID)
-        .then(data => {
-            if (!data) {
-                return next(new Error('Data is not foun'))
-            } else {
-                fs.unlink(path.join(__dirname, '/../uploads/') + data.image, (err) => {
-                    //return Impindura_Data.deleteOne({ _id:DeletedID, writer:req.session.user._id });
-                    data.remove();
-                    //console.log("Deleted :" + path.join( __dirname,'/../uploads/') + data.image);
-                });
-            }
-        })
-        .then(result => {
-            req.flash('error', 'Impindura deleted successfully !! ');
-            res.redirect('/admin/impindura');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getEditedImpindura = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    const editID = req.params.editID;
-    Impindura_Data.findById(editID)
-        .then(editData => {
-            res.render('admin/impindura_nshya', {
-                pageTitle: 'MOCA',
-                path: '/impindura_nshya',
-                errorMessage: message,
-                csrfToken: req.csrfToken(),
-                editing_data: editData,
-                editing: true
-            });
-        })
-        .catch(err => console.log(err));
-};
-
-exports.postEditedImpindura = (req, res, next) => {
-    const editedID = req.body.editedID;
-    const edited_image = req.file;
-    const edited_umuhanga = req.body.umuhanga;
-    const edited_ijambo = req.body.ijambo;
-    Impindura_Data.findById(editedID)
-        .then(data_edit => {
-            if (!edited_image) {
-                req.flash('error', 'Please File should be an image !! ');
-                res.redirect('/admin/impindura');
-            }
-            const edited_image_path = edited_image.path;
-            data_edit.image = edited_image_path;
-            data_edit.umuhanga = edited_umuhanga;
-            data_edit.ijambo = edited_ijambo;
-            data_edit.save();
-        })
-        .then(result => {
-            req.flash('error', 'Impindura updated !! ');
-            res.redirect('/admin/impindura');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getImpunduraPublish = (req, res, next) => {
-    const publishID = req.params.publishID;
-    let news_status = '';
-    Impindura_Data.findById(publishID)
-        .then(result_data => {
-            if (result_data.news_status === '1') {
-                news_status = '0'
-            } else {
-                news_status = '1'
-            }
-            result_data.news_status = news_status;
-            result_data.save();
-        })
-        .then(result => {
-            req.flash('error', 'Impindura Published !! ');
-            res.redirect('/admin/impindura');
-        })
-        .catch(err => console.log(err));
-};
-/*################################################################
-                        Inyandiko books
-#################################################################*/
-exports.getBooks = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    Book.find()
-        .then(data => {
-            res.render('admin/books', {
-                pageTitle: 'MOCA',
-                path: '/books',
-                errorMessage: message,
-                csrfToken: req.csrfToken(),
-                book_data: data
-            });
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getNewBook = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    res.render('admin/new_book', {
-        pageTitle: 'MOCA',
-        path: '/new_book',
-        errorMessage: message,
-        csrfToken: req.csrfToken(),
-        editing: false
-    });
-};
-
-exports.postNewBook = (req, res, next) => {
-    //const book_image  = req.file;
-    const book_title = req.body.title;
-    const book_desc = req.body.description;
-
-    User.findOne({ _id: req.session.user._id })
-        .then(result => {
-            let image = req.files.image;
-            let book = req.files.book;
-            let imageName = 'Kimeza_book_' + Date.now() + '_' + image.name;
-            let fileName = 'Kimeza_Book_' + Date.now() + '_' + book.name;
-            image.mv('./uploads/' + imageName, (err) => {
-                if (err) throw err;
-            });
-            book.mv('./uploads/' + fileName, (err) => {
-                if (err) throw err;
-            });
-            const book_files = image.path;
-            const book_data = new Book({
-                image: imageName,
-                title: book_title,
-                description: book_desc,
-                books: fileName,
-                writer: req.session.user.fname,
-                book_status: '0',
-                book_comment: {
-                    comment: []
-                }
-            });
-            return book_data.save();
-        })
-        .then(result => {
-            req.flash('error', 'Book Well Inserted !! ');
-            res.redirect('/admin/book_view');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getBookDownload = (req, res, next) => {
-    const bookID = req.params.bookID;
-    const bookName = 'kime_' + bookID + '.pdf';
-    const bookPath = path.join('uploads', bookName);
-    fs.readFile(bookPath, (err, data) => {
-        if (err) {
-            return next(err);
-        }
-        res.send(data);
-    });
-};
-
-exports.getEditBook = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    const edit_ID = req.params.editID;
-    Book.findById(edit_ID)
-        .then(edit_book => {
-            res.render('admin/new_book', {
-                pageTitle: 'MOCA',
-                path: '/new_book',
-                errorMessage: message,
-                csrfToken: req.csrfToken(),
-                editing_data: edit_book,
-                editing: true
-            });
-        })
-        .catch(err => console.log(err));
-};
-
-exports.postEditBook = (req, res, next) => {
-    const book_id = req.body.book_ID;
-    const book_title = req.body.title;
-    const book_desc = req.body.description;
-    const image = req.file;
-    Book.findById(book_id)
-        .then(result => {
-            if (!image) {
-                req.flash('error', 'No Book Selected !! ');
-                res.redirect('/admin/book_view');
-            }
-            const book_image = image.path;
-            result.title = book_title;
-            result.description = book_desc;
-            result.books = book_image;
-            result.save();
-        })
-        .then(results => {
-            req.flash('error', 'Book Well Updated !! ');
-            res.redirect('/admin/book_view');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getBookPublish = (req, res, next) => {
-    const publish_ID = req.params.publish_ID;
-    let news_status = '';
-    Book.findById(publish_ID)
-        .then(result_data => {
-            if (result_data.book_status === '1') {
-                news_status = '0'
-            } else {
-                news_status = '1'
-            }
-            result_data.book_status = news_status;
-            result_data.save();
-        })
-        .then(result => {
-            req.flash('error', 'Book Published !! ');
-            res.redirect('/admin/book_view');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getDeleteBook = (req, res, next) => {
-    const DeletedID = req.params.deleteID;
-    Book.findById(DeletedID)
-        .then(data => {
-            if (!data) {
-                return next(new Error('Data is not foun'))
-            } else {
-                fs.unlink(path.join(__dirname, '/../uploads/') + data.image, (err) => {
-                    data.remove();
-                });
-                fs.unlink(path.join(__dirname, '/../uploads/') + data.books, (err) => {
-                    data.remove();
-                });
-            }
-        })
-        .then(result => {
-            req.flash('error', 'Book deleted successfully !! ');
-            res.redirect('/admin/book_view');
-        })
-        .catch(err => console.log(err));
-};
-/*################################################################
-                        Inyandiko books
+                    Manage  Gallery
 #################################################################*/
 exports.getGallery = (req, res, next) => {
     var perPage = 3
@@ -809,7 +494,7 @@ exports.getNewGallery = (req, res, next) => {
 
 exports.postNewGallery = (req, res, next) => {
     const gallery_title = req.body.title;
-    const gallery_desc = req.body.subtitle;
+    const gallery_desc = req.body.product_subtitle;
 
     User.findOne({ _id: req.session.user._id })
         .then(result => {
@@ -821,7 +506,7 @@ exports.postNewGallery = (req, res, next) => {
             });
             const gallery_data = new Gallery({
                 title: gallery_title,
-                subtitle: gallery_desc,
+                product_subtitle: gallery_desc,
                 image: imageName,
                 writer: req.session.user.fname,
                 gallery_status: '0'
@@ -864,15 +549,15 @@ exports.getDeleteGallery = (req, res, next) => {
 
 exports.getGalleryPublish = (req, res, next) => {
     const publish_ID = req.params.publish_ID;
-    let news_status = '';
+    let product_status = '';
     Gallery.findById(publish_ID)
         .then(result_data => {
             if (result_data.gallery_status === '1') {
-                news_status = '0'
+                product_status = '0'
             } else {
-                news_status = '1'
+                product_status = '1'
             }
-            result_data.gallery_status = news_status;
+            result_data.gallery_status = product_status;
             result_data.save();
         })
         .then(result => {
@@ -922,7 +607,7 @@ exports.getNewAnouncement = (req, res, next) => {
 
 exports.postNewAnouncement = (req, res, next) => {
     const anounce_title = req.body.title;
-    const anounce_desc = req.body.subtitle;
+    const anounce_desc = req.body.product_subtitle;
     const image = req.file;
     User.findOne({ _id: req.session.user._id })
         .then(result => {
@@ -933,7 +618,7 @@ exports.postNewAnouncement = (req, res, next) => {
             const anounce_image = image.path;
             const anounce_data = new Anouncement({
                 title: anounce_title,
-                subtitle: anounce_desc,
+                product_subtitle: anounce_desc,
                 image: anounce_image,
                 writer: req.session.user.fname,
                 anounce_status: '0',
@@ -974,7 +659,7 @@ exports.getEditAnouncement = (req, res, next) => {
 exports.postEditAnouncement = (req, res, next) => {
     const anounce_id = req.body.anounce_ID;
     const anounce_title = req.body.title;
-    const anounce_desc = req.body.subtitle;
+    const anounce_desc = req.body.product_subtitle;
     const image = req.file;
     Anouncement.findById(anounce_id)
         .then(result => {
@@ -984,7 +669,7 @@ exports.postEditAnouncement = (req, res, next) => {
             }
             const anounce_image = image.path;
             result.title = anounce_title;
-            result.subtitle = anounce_desc;
+            result.product_subtitle = anounce_desc;
             result.image = anounce_image;
             result.save();
         })
@@ -1014,15 +699,15 @@ exports.getDeleteAnouncement = (req, res, next) => {
 
 exports.getPublishAnouncement = (req, res, next) => {
     const publish_ID = req.params.publish_ID;
-    let news_status = '';
+    let product_status = '';
     Anouncement.findById(publish_ID)
         .then(result_data => {
             if (result_data.anounce_status === '1') {
-                news_status = '0'
+                product_status = '0'
             } else {
-                news_status = '1'
+                product_status = '1'
             }
-            result_data.anounce_status = news_status;
+            result_data.anounce_status = product_status;
             result_data.save();
         })
         .then(result => {
@@ -1031,159 +716,7 @@ exports.getPublishAnouncement = (req, res, next) => {
         })
         .catch(err => console.log(err));
 };
-/*################################################################
-                        Akamaro kibyaremwe byose
-#################################################################*/
-exports.getAkamaro = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    Akamaro.find()
-        .then(data => {
-            res.render('admin/akamaro', {
-                pageTitle: 'MOCA',
-                path: '/akamaro',
-                errorMessage: message,
-                csrfToken: req.csrfToken(),
-                akamaro_data: data
-            });
-        })
-        .catch(err => console.log(err));
-};
 
-exports.getNewAkamaro = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    res.render('admin/new_akamaro', {
-        pageTitle: 'MOCA',
-        path: '/new_akamaro',
-        errorMessage: message,
-        csrfToken: req.csrfToken(),
-        editing: false
-    });
-};
-
-exports.postNewAkamaro = (req, res, next) => {
-    const akamaro_title = req.body.title;
-    const akamaro_subtitle = req.body.subtitle;
-    const akamaro_desc = req.body.description;
-    let image = req.files.image;
-    let akamaro_image = '';
-    User.findOne({ _id: req.session.user._id })
-        .then(result => {
-            akamaro_image = 'Kimeza_Akamaro_' + Date.now() + image.name;
-            image.mv('./uploads/' + akamaro_image, (err) => {
-                if (err) throw err;
-            });
-            const akamaro_data = new Akamaro({
-                title: akamaro_title,
-                subtitle: akamaro_subtitle,
-                details_data: akamaro_desc,
-                image: akamaro_image,
-                writer: req.session.user.fname,
-                akamaro_status: '0',
-                akamaro_date: new Date()
-            });
-            return akamaro_data.save();
-        })
-        .then(result => {
-            req.flash('error', 'The New Meaning Well Inserted !! ');
-            res.redirect('/admin/akamaro');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getEditAkamaro = (req, res, next) => {
-    let message = req.flash('error');
-    if (message.length > 0) {
-        message = message[0];
-    } else {
-        message = null;
-    }
-    const edit_ID = req.params.edit_akamaro;
-    Akamaro.findById(edit_ID)
-        .then(edit_akamaro => {
-            res.render('admin/new_akamaro', {
-                pageTitle: 'MOCA',
-                path: '/new_anouncement',
-                errorMessage: message,
-                csrfToken: req.csrfToken(),
-                editing_data: edit_akamaro,
-                editing: true
-            });
-        })
-        .catch(err => console.log(err));
-};
-
-exports.postEditAkamaro = (req, res, next) => {
-    const akamaro_id = req.body.akamaro_ID;
-    const akamaro_title = req.body.title;
-    const akamaro_subtitle = req.body.subtitle;
-    const akamaro_details = req.body.description;
-    const image = req.file;
-    Akamaro.findById(akamaro_id)
-        .then(result => {
-            if (!image) {
-                req.flash('error', 'No Image Selected !! ');
-                res.redirect('/admin/akamaro');
-            }
-            const akamaro_image = image.path;
-            result.title = akamaro_title;
-            result.subtitle = akamaro_subtitle;
-            result.details_data = akamaro_details;
-            result.image = akamaro_image;
-            result.save();
-        })
-        .then(results => {
-            req.flash('error', 'Data Well Updated !! ');
-            res.redirect('/admin/akamaro');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getDeleteAkamaro = (req, res, next) => {
-    const DeletedID = req.params.deleteID;
-    Akamaro.findById(DeletedID)
-        .then(data => {
-            if (!data) {
-                return next(new Error('Data is not foun'))
-            }
-            fileHelper.deleteFile(data.image);
-            return Akamaro.deleteOne({ _id: DeletedID });
-        })
-        .then(result => {
-            req.flash('error', 'The meaning deleted successfully !! ');
-            res.redirect('/admin/akamaro');
-        })
-        .catch(err => console.log(err));
-};
-
-exports.getPublishAkamaro = (req, res, next) => {
-    const publish_ID = req.params.publish_ID;
-    let news_status = '';
-    Akamaro.findById(publish_ID)
-        .then(result_data => {
-            if (result_data.akamaro_status === '1') {
-                news_status = '0'
-            } else {
-                news_status = '1'
-            }
-            result_data.akamaro_status = news_status;
-            result_data.save();
-        })
-        .then(result => {
-            req.flash('error', 'This Meaning is Published successfully !! ');
-            res.redirect('/admin/akamaro');
-        })
-        .catch(err => console.log(err));
-};
 /*################################################################
                    MANAGE slider image 
 #################################################################*/
@@ -1324,15 +857,15 @@ exports.postEditSlider = (req, res, next) => {
 
 exports.getPublishSlider = (req, res, next) => {
     const publish_ID = req.params.publish_ID;
-    let news_status = '';
+    let product_status = '';
     Slider.findById(publish_ID)
         .then(result_data => {
             if (result_data.slide_status === '1') {
-                news_status = '0'
+                product_status = '0'
             } else {
-                news_status = '1'
+                product_status = '1'
             }
-            result_data.slide_status = news_status;
+            result_data.slide_status = product_status;
             result_data.save();
         })
         .then(result => {

@@ -4,14 +4,14 @@ const path = require('path');
 const Contact_us = require('../models/Contact_us');
 const Order = require('../models/Order');
 const Gallery = require('../models/gallery'); //Cakes images
-const Cakes = require('../models/ibigaragara');
+const Cakes = require('../models/cake');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     var perPage = 9;
     var page = req.query.page || 1
-    Cakes.find({ news_status: "1" })
+    Cakes.find({ product_status: "1" })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, result_cakes) {
@@ -34,9 +34,16 @@ router.get('/', function(req, res, next) {
 //================================= CAKES ====================================
 /* GET CAKE PAGE   */
 router.get('/cake', function(req, res, next) {
+    let message = req.flash('error');
+    //let message = '';
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     var perPage = 9;
     var page = req.query.page || 1
-    Cakes.find({ news_status: "1" })
+    Cakes.find({ product_status: "1" })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, result_cakes) {
@@ -46,7 +53,7 @@ router.get('/cake', function(req, res, next) {
                     data_cakes: result_cakes,
                     pageTitle: 'Moca',
                     path: '/cake',
-                    //errorMessage: message,
+                    successMessage: message,
                     current: page,
                     pages: Math.ceil(count / perPage),
                     csrfToken: req.csrfToken()
@@ -138,7 +145,7 @@ router.get('/faq', function(req, res, next) {
 router.get('/shop', function(req, res, next) {
     var perPage = 9;
     var page = req.query.page || 1
-    Cakes.find({ news_status: "1" })
+    Cakes.find({ product_status: "1" })
         .skip((perPage * page) - perPage)
         .limit(perPage)
         .exec(function(err, result_cakes) {
@@ -228,6 +235,8 @@ router.post('/SendOrder', (req, res, next) => {
             includeinscription: req.body.includeinscription,
             theinscription: req.body.theinscription,
             tt_cost: req.body.tt_cost,
+            payment_method: req.body.payment_method,
+            transactionId: req.body.transactionId,
             country: req.body.country,
             province: req.body.province,
             district: req.body.district,
@@ -241,7 +250,7 @@ router.post('/SendOrder', (req, res, next) => {
         })
         .then((order) => {
             req.flash('error', 'Order is sent!! ');
-            res.redirect('/checkout');
+            res.redirect('/cake');
         }, (err) => next(err))
         .catch((err) => next(err));
 });

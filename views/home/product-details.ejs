@@ -1,5 +1,228 @@
 <%- include('includes/header.ejs'); %>
-
+    <style>
+        body {
+            font-family: 'open sans';
+            overflow-x: hidden;
+        }
+        
+        img {
+            max-width: 100%;
+        }
+        
+        .preview {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+        
+        @media screen and (max-width: 996px) {
+            .preview {
+                margin-bottom: 20px;
+            }
+        }
+        
+        .preview-pic {
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+        
+        .preview-thumbnail.nav-tabs {
+            border: none;
+            margin-top: 15px;
+        }
+        
+        .preview-thumbnail.nav-tabs li {
+            width: 18%;
+            margin-right: 2.5%;
+        }
+        
+        .preview-thumbnail.nav-tabs li img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        .preview-thumbnail.nav-tabs li a {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .preview-thumbnail.nav-tabs li:last-of-type {
+            margin-right: 0;
+        }
+        
+        .tab-content {
+            overflow: hidden;
+        }
+        
+        .tab-content img {
+            width: 100%;
+            -webkit-animation-name: opacity;
+            animation-name: opacity;
+            -webkit-animation-duration: .3s;
+            animation-duration: .3s;
+        }
+        
+        .card {
+            margin-top: 50px;
+            background: #eee;
+            padding: 3em;
+            line-height: 1.5em;
+        }
+        
+        @media screen and (min-width: 997px) {
+            .wrapper {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+            }
+        }
+        
+        .details {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+        
+        .colors {
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+        
+        .product-title,
+        .price,
+        .sizes {
+            text-transform: UPPERCASE;
+            font-weight: bold;
+        }
+        
+        .checked,
+        .price span {
+            color: #ff9f1a;
+        }
+        
+        .product-title,
+        .rating,
+        .product-description,
+        .price,
+        .vote,
+        .sizes {
+            margin-bottom: 15px;
+        }
+        
+        .product-title {
+            margin-top: 0;
+        }
+        
+        .size {
+            margin-right: 10px;
+        }
+        
+        .size:first-of-type {
+            margin-left: 40px;
+        }
+        /*  .color {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            height: 2em;
+            width: 2em;
+            border-radius: 2px;
+        } */
+        
+        .color:first-of-type {
+            margin-left: 20px;
+        }
+        /*
+        .add-to-cart,
+        .like {
+            background: #ff9f1a;
+            padding: 1.2em 1.5em;
+            border: none;
+            text-transform: UPPERCASE;
+            font-weight: bold;
+            color: #fff;
+            -webkit-transition: background .3s ease;
+            transition: background .3s ease;
+        }
+        
+        .add-to-cart:hover,
+        .like:hover {
+            background: #b36800;
+            color: #fff;
+        }
+        
+        .not-available {
+            text-align: center;
+            line-height: 2em;
+        }
+        
+        .not-available:before {
+            font-family: fontawesome;
+            content: "\f00d";
+            color: #fff;
+        }
+        
+        .orange {
+            background: #ff9f1a;
+        }
+        
+        .green {
+            background: #85ad00;
+        }
+        
+        .blue {
+            background: #0076ad;
+        }
+        */
+        
+        .tooltip-inner {
+            padding: 1.3em;
+        }
+        
+        @-webkit-keyframes opacity {
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(3);
+                transform: scale(3);
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes opacity {
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(3);
+                transform: scale(3);
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
+        /*# sourceMappingURL=style.css.map */
+    </style>
     <!--  FOR LIVE CAKE PRICE CALCULATION -->
     <!-- <link href="/stylesheets/cakeform.css" rel="stylesheet"> -->
     <script src="/javascripts/formcalculations.js"></script>
@@ -43,18 +266,14 @@
                             </nav>
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                                    <p>
+                                        <%= cake_details.cake_description  %>
+                                    </p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                                        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                                        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                                    <p>
+                                        <%= cake_details.product_subtitle %>
+                                    </p>
                                 </div>
                                 <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -65,18 +284,18 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/checkout" class="btn btn-info"> Next <i class="fa fa-arrow-right"></i> </a>
+                        <a href="/checkout" class="btn btn-link">Continue with current recipe <i class="fa fa-arrow-right"></i></a>
                     </div>
                     <div class="col-lg-6">
                         <div class="product_details_text">
                             <h4>
-                                <%= cake_details.subtitle %>
+                                <%= cake_details.product_subtitle %>
                             </h4>
-                            <!--         price calculator for cakes starts here --->
+                            <!--  price calculator for cakes starts here --->
                             <div class="panel panel-body">
                                 <!--  -->
                                 <!--End of wrap-->
-                                <!--         price calculator for cakes ends here --->
+                                <!--   price calculator for cakes ends here --->
 
                                 <!-- <h5>Price :<span id="tt">Rwf 24.5</span></h5>
                             <div class="quantity_box">
@@ -86,7 +305,6 @@
                             <a class="pink_more" href="checkout/">Add to Cart</a> -->
 
                                 <form id="cakeform" action="/SendOrder" method="POST">
-
                                     <!-- One "tab" for each step in the form: -->
                                     <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
                                     <div class="tab">
@@ -99,7 +317,7 @@
                                                     </div>
                                                     <label><b>Size Of the Cake:</b></label>
                                                     <input type="hidden" name="image" value="<%= cake_details.image_news %>">
-                                                    <input type="hidden" name="cake_name" value="<%= cake_details.subtitle %>">
+                                                    <input type="hidden" name="cake_name" value="<%= cake_details.product_subtitle %>">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
                                                       <input type="radio" class="form-check-input" name="selectedcake" value="Round6" onclick="calculateTotal()">Round cake 6" -  serves 8 people (Rwf 20,000)
@@ -226,29 +444,62 @@
                                             <textarea class="form-control" name="message" id="message" rows="1" placeholder="Note about your order. e.g. special note for delivery"></textarea>
                                         </div>
                                     </div>
-                                    <div class="tab">Login Info:
-                                        <!-- <p><input placeholder="Username..." oninput="this.className = ''" name="uname"></p>
-                                        <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password"></p> -->
+                                    <div class="tab">
+                                        <div class="payment_list">
+                                            <h4 class="product-title" id="trID">
+                                            </h4>
+                                            <h3 class="product-title">
+                                                <%=cake_details.title %>
+                                            </h3>
+                                            <div class="rating">
+                                                <div class="stars">
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star checked"></span>
+                                                    <span class="fa fa-star"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </div>
+                                                <span class="review-no">41 reviews</span>
+                                            </div>
+                                            <p class="product-description" id="orderNote"></p>
+                                            <h4 class="price" id="totalP"></h4>
+                                            <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+                                            <h5 class="sizes">
+                                                Payment method
+                                            </h5>
+                                        </div>
+                                        <div class="card" style="padding: 0;">
+                                            <div class="card-header">
 
+                                                <input type="text" id="transactionId" name="transactionId">
+                                                <label class="form-check-label" for="payment_method">
+                                                    <input type="radio" class="form-check-input" checked name="payment_method" value="Mobile money"><img src="/img/momo.PNG" alt=""/>  MOMO Pay 
+                                                </label>
+                                            </div>
+                                            <div class="card-body">
+                                                Make your payment directly into our MOMO account <b>(*182*8*030272#)</b>. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.
+                                            </div>
+                                        </div>
                                     </div>
                             </div>
-                            <div style="overflow:auto;">
-                                <div style="float:right;">
-                                    <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-primary">Previous</button>
-                                    <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn btn-info" value='Next'> <i class="fa fa-arrow-right"></i>Next</button>
-                                </div>
-                            </div>
-                            <!-- Circles which indicates the steps of the form: -->
-                            <div style="text-align:center;margin-top:40px;">
-                                <span class="step"></span>
-                                <span class="step"></span>
-                                <span class="step"></span>
-                                <span class="step"></span>
-                            </div>
-                            </form>
                         </div>
+                        <div style="overflow:auto;">
+                            <div style="float:right;">
+                                <button type="button" id="prevBtn" onclick="nextPrev(-1)" class="btn btn-primary">Previous</button>
+                                <button type="button" id="nextBtn" onclick="nextPrev(1)" class="btn btn-info" value='Next'> <i class="fa fa-arrow-right"></i>Next</button>
+                            </div>
+                        </div>
+                        <!-- Circles which indicates the steps of the form: -->
+                        <div style="text-align:center;margin-top:40px;">
+                            <span class="step"></span>
+                            <span class="step"></span>
+                            <span class="step"></span>
+                            <span class="step"></span>
+                        </div>
+                        </form>
                     </div>
                 </div>
+            </div>
             </div>
         </section>
         <script>

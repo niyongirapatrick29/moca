@@ -1,11 +1,7 @@
 const path = require('path');
-
 const express = require('express');
-
 const router = express.Router();
-
 const backController = require('../controller/admin');
-
 const Authenticated = require('../middleware/isAuth');
 
 /*##################################################################################################
@@ -23,89 +19,45 @@ router.get('/home', Authenticated, backController.getHome);
                                         user system
 ###################################################################################################*/
 router.get('/users', Authenticated, backController.getUsers);
-
 router.get('/add_user', Authenticated, backController.getAddUser);
-
 router.post('/add_user', backController.postNewUser);
-
 router.get('/approve_user/:userID', Authenticated, backController.getApproveUser);
-
 router.get('/delete_user/:userID', Authenticated, backController.getDeleteUser);
 
 /*##################################################################################################
-
                                         ORDERS system
 ###################################################################################################*/
 router.get('/orders', Authenticated, backController.getOrders);
 router.get('/approve_orders/:orderID', Authenticated, backController.getApproveOrder);
 router.get('/delete_orders/:orderID', Authenticated, backController.getDeleteOrder);
 
-/*router.get('/add_user', Authenticated, backController.getAddUser);
-
-router.post('/add_user', backController.postNewUser);
-
-router.get('/approve_user/:userID', Authenticated, backController.getApproveUser);
-
-router.get('/delete_user/:userID', Authenticated, backController.getDeleteOrder);*/
 
 /*##################################################################################################
-
-                                        ibigaragara system
+                                        cake system
 ###################################################################################################*/
 
-router.get('/products', Authenticated, backController.getIbigaragara);
+router.get('/products', Authenticated, backController.getProduct);
 
-router.get('/new_product', Authenticated, backController.getInkuruNshya);
+router.get('/new_product', Authenticated, backController.getNewProduct);
 
 router.post('/newCake', Authenticated, backController.postNewCake);
 
-router.get('/ibigaragara_details/:detailsID', Authenticated, backController.getInkuruDetails);
+/*################################# MANAGE PRODUCT OR CAKE CATEGORY ###########################*/
+//add Category
+router.post('/newcategory', Authenticated, backController.postNewCategory);
+//delete category
+router.get('/deletecategory/:deleteID', Authenticated, backController.getDeleteCategory);
 
-router.get('/delete_ibigaragara/:deleteID', Authenticated, backController.getDeleteIbigaragara);
 
-router.get('/publish_ibigaragara/:publishID', Authenticated, backController.getPublish);
+router.get('/products/:detailsID', Authenticated, backController.getProductDetails);
 
-router.get('/edit_ibigaragara/:editID', Authenticated, backController.getEdited);
+router.get('/delete_product/:deleteID', Authenticated, backController.getDeleteProduct);
 
-router.post('/edit_ibigaragara', Authenticated, backController.postEditedData);
+router.get('/publish_Orunpublish/:publishID', Authenticated, backController.getPublish);
 
-/*##################################################################################################
-                                        impindura system
-###################################################################################################*/
+router.get('/edit_product/:editID', Authenticated, backController.getEdited);
 
-router.get('/impindura', Authenticated, backController.getImpindura);
-
-router.get('/impindura_nshya', Authenticated, backController.getImpinduraNshya);
-
-router.post('/impindura_nshya', Authenticated, backController.postImpinduraNshya);
-
-router.get('/impindura_delete/:deleteID', Authenticated, backController.getDeleteImpindura);
-
-router.get('/impindura_edit/:editID', Authenticated, backController.getEditedImpindura);
-
-router.post('/impindura_edit', Authenticated, backController.postEditedImpindura);
-
-router.get('/impindura_publish/:publishID', Authenticated, backController.getImpunduraPublish);
-
-/*##################################################################################################
-                                        inyandiko or books system
-###################################################################################################*/
-
-router.get('/book_view', Authenticated, backController.getBooks);
-
-router.get('/new_book', Authenticated, backController.getNewBook);
-
-router.post('/new_book', Authenticated, backController.postNewBook);
-
-router.get('/edit_book/:editID', Authenticated, backController.getEditBook);
-
-router.post('/edit_book', Authenticated, backController.postEditBook);
-
-router.get('/download_book/:bookID', Authenticated, backController.getBookDownload);
-
-router.get('/book_publish/:publish_ID', Authenticated, backController.getBookPublish);
-
-router.get('/book_delete/:deleteID', Authenticated, backController.getDeleteBook);
+router.post('/edit_product', Authenticated, backController.postEditedData);
 
 /*##################################################################################################
                                         gallery or gallery system
@@ -137,25 +89,9 @@ router.get('/anounce_delete/:deleteID', Authenticated, backController.getDeleteA
 
 router.get('/anounce_publish/:publish_ID', Authenticated, backController.getPublishAnouncement);
 
-/*##################################################################################################
-                                        akamaro system
-###################################################################################################*/
-router.get('/akamaro', Authenticated, backController.getAkamaro);
-
-router.get('/new_akamaro', Authenticated, backController.getNewAkamaro);
-
-router.post('/new_akamaro', Authenticated, backController.postNewAkamaro);
-
-router.get('/akamaro_edit/:edit_akamaro', Authenticated, backController.getEditAkamaro);
-
-router.post('/akamaro_edit', Authenticated, backController.postEditAkamaro);
-
-router.get('/akamaro_delete/:deleteID', Authenticated, backController.getDeleteAkamaro);
-
-router.get('/akamaro_publish/:publish_ID', Authenticated, backController.getPublishAkamaro);
 
 /*##################################################################################################
-                                        akamaro system
+                                        slider system
 ###################################################################################################*/
 router.get('/slider', Authenticated, backController.getSlider);
 
@@ -174,9 +110,9 @@ router.get('/slide_publish/:publish_ID', Authenticated, backController.getPublis
 /*##################################################################################################
                                         sobanukirwa system
 ###################################################################################################*/
-router.get('/sobanukirwa', Authenticated, backController.getSobanukirwa);
-router.post('/sobanukirwa', Authenticated, backController.postSobanukirwa);
-router.get('/sobanukirwa/:comment_id', Authenticated, backController.deleteSobanukirwaComment);
-router.get('/sobanukirwad/:sobanukirwa_id', Authenticated, backController.deleteQuestion);
+// router.get('/sobanukirwa', Authenticated, backController.getSobanukirwa);
+// router.post('/sobanukirwa', Authenticated, backController.postSobanukirwa);
+// router.get('/sobanukirwa/:comment_id', Authenticated, backController.deleteSobanukirwaComment);
+// router.get('/sobanukirwad/:sobanukirwa_id', Authenticated, backController.deleteQuestion);
 
 module.exports = router;

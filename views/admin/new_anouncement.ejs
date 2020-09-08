@@ -36,13 +36,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group ">
-                                    <label for="subtitle" class="col-sm-12 control-label col-form-label">Subtitle </label>
+                                    <label for="product_subtitle" class="col-sm-12 control-label col-form-label">Subtitle </label>
                                     <div class="col-sm-12">
                                         <% if(editing){ %>
                                         <input type="hidden"  name="anounce_ID" id="anounce_ID" value="<%= editing_data._id %>">
                                         <% } %>
                                         <input type="hidden"  name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                                        <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="subtitle  Here"value="<% if(editing){%><%=editing_data.subtitle %><% } %>">
+                                        <input type="text" class="form-control" name="product_subtitle" id="product_subtitle" placeholder="product_subtitle  Here"value="<% if(editing){%><%=editing_data.product_subtitle %><% } %>">
                                     </div>
                                 </div>
                             </div>

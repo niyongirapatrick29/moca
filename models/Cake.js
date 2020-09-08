@@ -2,46 +2,50 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const Ibigaragara_newSchema = new Schema({
-    title:{
+const CakeSchema = new Schema({
+    title: {
         type: String,
         required: true
     },
-    subtitle:{
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
+    },
+    product_subtitle: {
         type: String,
         required: true
     },
-    full_news:{
+    cake_description: {
         type: String,
         required: true
     },
-    image_news:{
+    image_news: {
         type: String,
         required: true
     },
-    writer:{
+    writer: {
         type: String,
         required: true
     },
-    news_status:{
+    product_status: {
         type: String,
         required: true
     },
-    new_date:{
-        type:String,
+    new_date: {
+        type: String,
         required: true
     },
-    news_comments:{
+    news_comments: {
         comment: [{
-            name:{
+            name: {
                 type: String,
                 required: true
             },
-            email:{
+            email: {
                 type: String,
-                required:true
+                required: true
             },
-            message:{
+            message: {
                 type: String,
                 required: true
             }
@@ -49,4 +53,4 @@ const Ibigaragara_newSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('ibigaragara_news', Ibigaragara_newSchema);
+module.exports = mongoose.model('cakes', CakeSchema);

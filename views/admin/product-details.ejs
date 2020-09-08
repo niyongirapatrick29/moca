@@ -1,40 +1,329 @@
-<%- include('../includes/back_head.ejs') %>
-  <!-- Navigation-->
-<%- include('../includes/back_navigator.ejs') %>
-  <div class="content-wrapper">
-    <div class="container-fluid">
-      <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-          </li>
-          <li class="breadcrumb-item active">Product details </li>
-      </ol>
-      <!-- Icon Cards-->
-      <div class="container">
-        <!-- Example Social Card-->
-        <div class="card col-md-8 col-lg-8 col-sm-12" style="padding: 0px;">
-            <a href="#">
-              <img class="card-img-top img-fluid w-100" src="<%= details.imageUrl %>" alt="">
-            </a>
-            <div class="card-body">
-                <h2 class="card-title mb-1"><a href="#"><%= details.title %></a></h2>
-                <p class="card-text small"><%= details.desc %></p>
-              </div>
-              <hr class="my-0">
-              <div class="card-body small">
-                <a class="mr-3 d-inline-block" href="#">Quantity: <%= details.qty %> kg</a>
-                <a class="mr-3 d-inline-block" href="#"></a>
-                <a class="d-inline-block" href="#">Price: <%= details.price %> Frw</a>
-              </div>
-              <div class="card-footer small text-muted">
-                <button class="button pull-right">Add To Cart</button>
-              </div>
+<%- include('include/back_head.ejs') %>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        body {
+            font-family: 'open sans';
+            overflow-x: hidden;
+        }
+        
+        img {
+            max-width: 100%;
+        }
+        
+        .preview {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+        
+        @media screen and (max-width: 996px) {
+            .preview {
+                margin-bottom: 20px;
+            }
+        }
+        
+        .preview-pic {
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+        
+        .preview-thumbnail.nav-tabs {
+            border: none;
+            margin-top: 15px;
+        }
+        
+        .preview-thumbnail.nav-tabs li {
+            width: 18%;
+            margin-right: 2.5%;
+        }
+        
+        .preview-thumbnail.nav-tabs li img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        .preview-thumbnail.nav-tabs li a {
+            padding: 0;
+            margin: 0;
+        }
+        
+        .preview-thumbnail.nav-tabs li:last-of-type {
+            margin-right: 0;
+        }
+        
+        .tab-content {
+            overflow: hidden;
+        }
+        
+        .tab-content img {
+            width: 100%;
+            -webkit-animation-name: opacity;
+            animation-name: opacity;
+            -webkit-animation-duration: .3s;
+            animation-duration: .3s;
+        }
+        
+        .card {
+            margin-top: 50px;
+            background: #eee;
+            padding: 3em;
+            line-height: 1.5em;
+        }
+        
+        @media screen and (min-width: 997px) {
+            .wrapper {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+            }
+        }
+        
+        .details {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+        }
+        
+        .colors {
+            -webkit-box-flex: 1;
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+        
+        .product-title,
+        .price,
+        .sizes,
+        .colors {
+            text-transform: UPPERCASE;
+            font-weight: bold;
+        }
+        
+        .checked,
+        .price span {
+            color: #ff9f1a;
+        }
+        
+        .product-title,
+        .rating,
+        .product-description,
+        .price,
+        .vote,
+        .sizes {
+            margin-bottom: 15px;
+        }
+        
+        .product-title {
+            margin-top: 0;
+        }
+        
+        .size {
+            margin-right: 10px;
+        }
+        
+        .size:first-of-type {
+            margin-left: 40px;
+        }
+        
+        .color {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+            height: 2em;
+            width: 2em;
+            border-radius: 2px;
+        }
+        
+        .color:first-of-type {
+            margin-left: 20px;
+        }
+        
+        .add-to-cart,
+        .like {
+            background: #ff9f1a;
+            padding: 1.2em 1.5em;
+            border: none;
+            text-transform: UPPERCASE;
+            font-weight: bold;
+            color: #fff;
+            -webkit-transition: background .3s ease;
+            transition: background .3s ease;
+        }
+        
+        .add-to-cart:hover,
+        .like:hover {
+            background: #b36800;
+            color: #fff;
+        }
+        
+        .not-available {
+            text-align: center;
+            line-height: 2em;
+        }
+        
+        .not-available:before {
+            font-family: fontawesome;
+            content: "\f00d";
+            color: #fff;
+        }
+        
+        .orange {
+            background: #ff9f1a;
+        }
+        
+        .green {
+            background: #85ad00;
+        }
+        
+        .blue {
+            background: #0076ad;
+        }
+        
+        .tooltip-inner {
+            padding: 1.3em;
+        }
+        
+        @-webkit-keyframes opacity {
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(3);
+                transform: scale(3);
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes opacity {
+            0% {
+                opacity: 0;
+                -webkit-transform: scale(3);
+                transform: scale(3);
+            }
+            100% {
+                opacity: 1;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+        }
+        /*# sourceMappingURL=style.css.map */
+    </style>
+    <!-- Navigation-->
+    <%- include('include/back_top_navigation.ejs') %>
+        <%- include('include/back_navigator.ejs') %>
+            <!-- end Navigation-->
+            <!-- ============================================================== -->
+            <div class="page-wrapper">
+                <div class="container-fluid">
+                    <!-- ============================================================== -->
+                    <div class="row">
+                        <!-- card -->
+                        <div class="w3-container">
+                            <h2> details</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 ">
+                                <div class="w3-content">
+                                    <img class="mySlides" src="/uploads/1597520471848kimeza_c-feature-2.jpg" style="width:100%;display:none">
+                                    <img class="mySlides" src="/uploads/1597565277467kimeza_c-feature-3.jpg" style="width:100%">
+                                    <img class="mySlides" src="/uploads/1597565319390kimeza_c-feature-7.jpg" style="width:100%;display:none">
+                                    <img class="mySlides" src="/uploads/1597567138635kimeza_c-feature-8.jpg" style="width:100%;display:none">
+
+                                    <div class="w3-row-padding w3-section">
+                                        <div class="w3-col s2">
+                                            <img class="demo w3-opacity w3-hover-opacity-off" src="/uploads/1597520471848kimeza_c-feature-2.jpg" style="width:100%;cursor:pointer" onclick="currentDiv(1)">
+                                        </div>
+                                        <div class="w3-col s2">
+                                            <img class="demo w3-opacity w3-hover-opacity-off" src="/uploads/1597565277467kimeza_c-feature-3.jpg" style="width:100%;cursor:pointer" onclick="currentDiv(2)">
+                                        </div>
+                                        <div class="w3-col s2">
+                                            <img class="demo w3-opacity w3-hover-opacity-off" src="/uploads/1597565319390kimeza_c-feature-7.jpg" style="width:100%;cursor:pointer" onclick="currentDiv(3)">
+                                        </div>
+                                        <div class="w3-col s2">
+                                            <img class="demo w3-opacity w3-hover-opacity-off" src="/uploads/1597567138635kimeza_c-feature-8.jpg" style="width:100%;cursor:pointer" onclick="currentDiv(4)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="details col-md-6">
+                                <h3 class="product-title">men's shoes fashion</h3>
+                                <div class="rating">
+                                    <div class="stars">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <span class="review-no">41 reviews</span>
+                                </div>
+                                <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+                                <h4 class="price">current price: <span>$180</span></h4>
+                                <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p>
+                                <h5 class="sizes">sizes:
+                                    <span class="size" data-toggle="tooltip" title="small">s</span>
+                                    <span class="size" data-toggle="tooltip" title="medium">m</span>
+                                    <span class="size" data-toggle="tooltip" title="large">l</span>
+                                    <span class="size" data-toggle="tooltip" title="xtra large">xl</span>
+                                </h5>
+                                <h5 class="colors">colors:
+                                    <span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
+                                    <span class="color green"></span>
+                                    <span class="color blue"></span>
+                                </h5>
+                                <div class="action">
+                                    <button class="add-to-cart btn btn-default" type="button">add to cart</button>
+                                    <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            function currentDiv(n) {
+                                showDivs(slideIndex = n);
+                            }
+
+                            function showDivs(n) {
+                                var i;
+                                var x = document.getElementsByClassName("mySlides");
+                                var dots = document.getElementsByClassName("demo");
+                                if (n > x.length) {
+                                    slideIndex = 1
+                                }
+                                if (n < 1) {
+                                    slideIndex = x.length
+                                }
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = "none";
+                                }
+                                for (i = 0; i < dots.length; i++) {
+                                    dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
+                                }
+                                x[slideIndex - 1].style.display = "block";
+                                dots[slideIndex - 1].className += " w3-opacity-off";
+                            }
+                        </script>
+                    </div>
+                    <!-- ============================================================== -->
+                </div>
             </div>
-          <!-- Example Social Card-->
-      </div>
-
-    </div>
-    <!-- /.container-fluid-->
-
-    <%- include('../includes/back_footer.ejs') %>
+            <!-- ============================================================== -->
+            <%- include('include/back_footer.ejs') %>

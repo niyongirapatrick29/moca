@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="card">
-                                <form class="form-horizontal" action="/admin/<% if(editing){ %>edit_ibigaragara<% }else{ %>newCake<% } %>" method="POST" enctype="multipart/form-data">
+                                <form class="form-horizontal" action="/admin/<% if(editing){ %>edit_product<% }else{ %>newCake<% } %>" method="POST" enctype="multipart/form-data">
                                     <div class="card-body">
                                         <h4 class="card-title"><b>FILL THE FORM OF NEW CAKE</b></h4>
                                         <% if(errorMessage){ %>
@@ -36,19 +36,30 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group ">
-                                                            <label for="subtitle" class="col-sm-12 control-label col-form-label">Subtitle</label>
+                                                            <div class="col-sm-12">
+                                                                <select name="category" id="category" class="form-control">
+                                                                    <option value="" disabled="disabled" selected>Select cake category</option>
+                                                                    <% for(let categories_data of categories){ %>
+                                                                    <option value="<%=categories_data._id%>" <% if(editing) { %> selected=selected" <%=editing_data.category %><% } %>>
+                                                                        <%=categories_data.categoryName%></option>
+                                                                        <% } %>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <label for="product_subtitle" class="col-sm-12 control-label col-form-label">Cake Name</label>
                                                             <div class="col-sm-12">
                                                                 <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                                                                <input type="text" class="form-control" name="subtitle" id="subtitle" placeholder="subtitle  Here" value="<% if(editing){ %><%= editing_data.subtitle %><% } %>">
+                                                                <input type="text" class="form-control" name="product_subtitle" id="product_subtitle" placeholder="Name of cake  Here" value="<% if(editing){ %><%= editing_data.product_subtitle %><% } %>">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
 
                                                         <div class="form-group ">
-                                                            <label for="title" class="col-sm-12  control-label col-form-label">Full News</label>
+                                                            <label for="title" class="col-sm-12  control-label col-form-label">Descriptions</label>
                                                             <div class="col-sm-12">
-                                                                <textarea name="full_news" class="form-control" id="full_news" cols="30" rows="10"><% if(editing){ %><%= editing_data.full_news %><% } %></textarea>
+                                                                <textarea name="cake_description" class="form-control" id="cake_description" cols="30" rows="10"><% if(editing){ %><%= editing_data.cake_description %><% } %></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -65,7 +76,61 @@
                         </div>
                         <div class="col-md-4">
                             <div class="card">
-                                Category
+                                <form class="form-horizontal" action="/admin/newcategory" method="POST">
+                                    <div class="card-body">
+                                        <h4 class="card-title"><b>ADD CATEGORY HERE</b></h4>
+                                        <% if(errorMessage){ %>
+                                            <div class="alert alert-success">
+                                                <%= errorMessage %>
+                                            </div>
+                                            <% } %>
+                                                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="category" id="category" placeholder="Category name">
+                                                </div>
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="mdi mdi-plus"> Save Category </i>
+                                                </button>
+                                    </div>
+                                </form>
+
+                                <div class="panel panel-default">
+                                    <center>
+                                        <u> <b>Available categories</b></u>
+                                        <% if(categories.length > 0){ %>
+                                            <div class="overflow-auto">
+                                                <table class="table table-bordered table-sm">
+                                                    <thead>
+                                                        <th scope="col ">No</th>
+                                                        <th scope="col ">Category Names</th>
+                                                        <th scope="col ">Actions</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% let i=0 %>
+                                                            <% for(let categories_data of categories){ %>
+                                                                <tr>
+                                                                    <td>
+                                                                        <%= i+1 %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%= categories_data.categoryName %>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="/admin/deletecategory/<%=categories_data._id %>">
+                                                                            <span class="mdi mdi-delete-forever" title="Delete forever"></span>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                                <% i = i+1 %>
+                                                                    <% } %>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <% } else{ %>
+                                                <h1>No categories found</h1>
+                                                <% } %>
+                                    </center>
+                                </div>
                             </div>
                         </div>
                     </div>
